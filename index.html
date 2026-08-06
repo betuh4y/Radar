@@ -384,6 +384,22 @@ audio.rec{width:100%;margin-top:8px}
 
 <input type="file" id="inpChatImg" accept="image/*" class="hide" onchange="enviarImagemChat(this)">
 <div id="imgViewer" onclick="this.classList.remove('show')"><img id="imgViewerImg" alt=""></div>
+<!-- PONTE (chamadas entre navegador e o app Flutter) -->
+<div class="ov" id="ovPonte">
+ <div class="sheet">
+  <div class="avatar ring" id="pontAvatar"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M11 18h2"/></svg></div>
+  <div class="t1">Chamada via app (Flutter)</div>
+  <div class="t2" id="pontT2">---</div>
+  <div class="t3" id="pontT3">Conectando…</div>
+  <div id="pontTimer" class="hide" style="font-size:16px;color:var(--call);margin-bottom:16px;font-family:var(--mono);font-weight:600">00:00</div>
+  <div class="acoes">
+    <button class="bgr" id="pontBtnMute" onclick="pontMudo()"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 10a7 7 0 0 0 14 0"/><path d="M12 17v4"/></svg>Mudo</button>
+    <button class="br" onclick="pontEncerrar()">Encerrar</button>
+  </div>
+ </div>
+</div>
+<audio id="pontRemoteAudio" autoplay></audio>
+
 <div id="toast"></div>
 
 <script>
@@ -408,7 +424,7 @@ try{
   document.head.appendChild(l);
 }catch(e){}
 
-const ICP={"phone": "<path d=\"M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.4 2.1L8.1 10a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.9.6 2.9.7a2 2 0 0 1 1.6 2z\"/>", "in": "<path d=\"M17 7 7 17\"/><path d=\"M15 17H7V9\"/>", "out": "<path d=\"m7 17 10-10\"/><path d=\"M9 7h8v8\"/>", "miss": "<path d=\"m2 2 20 20\"/><path d=\"M8.7 3.9A17 17 0 0 1 12 3.6c4 0 7.7 1.4 10 3.6l-3.2 3.2a2 2 0 0 1-2.5.3\"/><path d=\"M2 7.2a12 12 0 0 1 3.3-2.3\"/><path d=\"M2 7.2 5 10.3a2 2 0 0 0 2.5.3l.7-.4\"/>", "x": "<path d=\"M18 6 6 18\"/><path d=\"m6 6 12 12\"/>", "mic": "<rect x=\"9\" y=\"2\" width=\"6\" height=\"12\" rx=\"3\"/><path d=\"M5 10a7 7 0 0 0 14 0\"/><path d=\"M12 17v4\"/>", "pause": "<rect x=\"6\" y=\"4\" width=\"4\" height=\"16\" rx=\"1\"/><rect x=\"14\" y=\"4\" width=\"4\" height=\"16\" rx=\"1\"/>", "plus": "<path d=\"M12 5v14\"/><path d=\"M5 12h14\"/>", "transfer": "<path d=\"M4 17V7l7 5z\"/><path d=\"M13 12h7\"/><path d=\"m17 8 4 4-4 4\"/>", "swap": "<path d=\"M16 3h5v5\"/><path d=\"M8 21H3v-5\"/><path d=\"M21 3 3 21\"/>", "users": "<path d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2\"/><circle cx=\"9\" cy=\"7\" r=\"4\"/><path d=\"M22 21v-2a4 4 0 0 0-3-3.9\"/><path d=\"M16 3.1a4 4 0 0 1 0 7.8\"/>", "radio": "<circle cx=\"12\" cy=\"12\" r=\"2\"/><path d=\"M16.2 7.8a6 6 0 0 1 0 8.4\"/><path d=\"M7.8 16.2a6 6 0 0 1 0-8.4\"/><path d=\"M19.1 4.9a10 10 0 0 1 0 14.2\"/><path d=\"M4.9 19.1a10 10 0 0 1 0-14.2\"/>", "star": "<path fill=\"currentColor\" stroke=\"none\" d=\"m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z\"/>", "staro": "<path d=\"m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z\"/>", "trash": "<path d=\"M3 6h18\"/><path d=\"M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2\"/><path d=\"M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6\"/><path d=\"M10 11v6\"/><path d=\"M14 11v6\"/>", "vm": "<circle cx=\"6\" cy=\"12\" r=\"3.5\"/><circle cx=\"18\" cy=\"12\" r=\"3.5\"/><path d=\"M6 15.5h12\"/>", "refresh": "<path d=\"M21 12a9 9 0 1 1-2.6-6.4\"/><path d=\"M21 4v5h-5\"/>", "check": "<path d=\"M20 6 9 17l-5-5\"/>", "rec": "<circle cx=\"12\" cy=\"12\" r=\"6\" fill=\"currentColor\" stroke=\"none\"/>", "grid": "<rect x=\"3\" y=\"3\" width=\"7\" height=\"7\" rx=\"1.5\"/><rect x=\"14\" y=\"3\" width=\"7\" height=\"7\" rx=\"1.5\"/><rect x=\"3\" y=\"14\" width=\"7\" height=\"7\" rx=\"1.5\"/><rect x=\"14\" y=\"14\" width=\"7\" height=\"7\" rx=\"1.5\"/>", "user": "<circle cx=\"12\" cy=\"8\" r=\"4\"/><path d=\"M4 21a8 8 0 0 1 16 0\"/>", "chat": "<path d=\"M21 12a8 8 0 0 1-8 8H4l2-3a8 8 0 1 1 15-5z\"/>", "belloff": "<path d=\"m2 2 20 20\"/><path d=\"M18.6 13.4A2 2 0 0 1 18 12V8a6 6 0 0 0-9.3-5\"/><path d=\"M6.3 6.3A6 6 0 0 0 6 8v4a2 2 0 0 1-1.4 1.9L4 17h11\"/><path d=\"M10 21h4\"/>", "history": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7v5l3 3\"/>", "video": "<path d=\"m22 8-6 4 6 4V8z\"/><rect x=\"2\" y=\"6\" width=\"14\" height=\"12\" rx=\"2\"/>", "redo": "<path d=\"M21 7v6h-6\"/><path d=\"M3 17a9 9 0 0 1 15-6.7L21 13\"/>", "micoff": "<path d=\"m2 2 20 20\"/><path d=\"M9 9v3a3 3 0 0 0 5.1 2.1\"/><path d=\"M15 9.3V5a3 3 0 0 0-5.9-.8\"/><path d=\"M17 12.5a7 7 0 0 1-12-2.5\"/><path d=\"M12 17v4\"/>", "play": "<path d=\"M7 4.5v15l12-7.5z\"/>", "stop": "<rect x=\"6\" y=\"6\" width=\"12\" height=\"12\" rx=\"1.5\" fill=\"currentColor\" stroke=\"none\"/>"};
+const ICP={"phone": "<path d=\"M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 2 .7 2.9a2 2 0 0 1-.4 2.1L8.1 10a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.9.6 2.9.7a2 2 0 0 1 1.6 2z\"/>", "in": "<path d=\"M17 7 7 17\"/><path d=\"M15 17H7V9\"/>", "out": "<path d=\"m7 17 10-10\"/><path d=\"M9 7h8v8\"/>", "miss": "<path d=\"m2 2 20 20\"/><path d=\"M8.7 3.9A17 17 0 0 1 12 3.6c4 0 7.7 1.4 10 3.6l-3.2 3.2a2 2 0 0 1-2.5.3\"/><path d=\"M2 7.2a12 12 0 0 1 3.3-2.3\"/><path d=\"M2 7.2 5 10.3a2 2 0 0 0 2.5.3l.7-.4\"/>", "x": "<path d=\"M18 6 6 18\"/><path d=\"m6 6 12 12\"/>", "mic": "<rect x=\"9\" y=\"2\" width=\"6\" height=\"12\" rx=\"3\"/><path d=\"M5 10a7 7 0 0 0 14 0\"/><path d=\"M12 17v4\"/>", "pause": "<rect x=\"6\" y=\"4\" width=\"4\" height=\"16\" rx=\"1\"/><rect x=\"14\" y=\"4\" width=\"4\" height=\"16\" rx=\"1\"/>", "plus": "<path d=\"M12 5v14\"/><path d=\"M5 12h14\"/>", "transfer": "<path d=\"M4 17V7l7 5z\"/><path d=\"M13 12h7\"/><path d=\"m17 8 4 4-4 4\"/>", "swap": "<path d=\"M16 3h5v5\"/><path d=\"M8 21H3v-5\"/><path d=\"M21 3 3 21\"/>", "users": "<path d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2\"/><circle cx=\"9\" cy=\"7\" r=\"4\"/><path d=\"M22 21v-2a4 4 0 0 0-3-3.9\"/><path d=\"M16 3.1a4 4 0 0 1 0 7.8\"/>", "radio": "<circle cx=\"12\" cy=\"12\" r=\"2\"/><path d=\"M16.2 7.8a6 6 0 0 1 0 8.4\"/><path d=\"M7.8 16.2a6 6 0 0 1 0-8.4\"/><path d=\"M19.1 4.9a10 10 0 0 1 0 14.2\"/><path d=\"M4.9 19.1a10 10 0 0 1 0-14.2\"/>", "star": "<path fill=\"currentColor\" stroke=\"none\" d=\"m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z\"/>", "staro": "<path d=\"m12 2 3.1 6.3 6.9 1-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 6.9-1z\"/>", "app": "<rect x=\"6\" y=\"2\" width=\"12\" height=\"20\" rx=\"2\"/><path d=\"M11 18h2\"/>", "trash": "<path d=\"M3 6h18\"/><path d=\"M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2\"/><path d=\"M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6\"/><path d=\"M10 11v6\"/><path d=\"M14 11v6\"/>", "vm": "<circle cx=\"6\" cy=\"12\" r=\"3.5\"/><circle cx=\"18\" cy=\"12\" r=\"3.5\"/><path d=\"M6 15.5h12\"/>", "refresh": "<path d=\"M21 12a9 9 0 1 1-2.6-6.4\"/><path d=\"M21 4v5h-5\"/>", "check": "<path d=\"M20 6 9 17l-5-5\"/>", "rec": "<circle cx=\"12\" cy=\"12\" r=\"6\" fill=\"currentColor\" stroke=\"none\"/>", "grid": "<rect x=\"3\" y=\"3\" width=\"7\" height=\"7\" rx=\"1.5\"/><rect x=\"14\" y=\"3\" width=\"7\" height=\"7\" rx=\"1.5\"/><rect x=\"3\" y=\"14\" width=\"7\" height=\"7\" rx=\"1.5\"/><rect x=\"14\" y=\"14\" width=\"7\" height=\"7\" rx=\"1.5\"/>", "user": "<circle cx=\"12\" cy=\"8\" r=\"4\"/><path d=\"M4 21a8 8 0 0 1 16 0\"/>", "chat": "<path d=\"M21 12a8 8 0 0 1-8 8H4l2-3a8 8 0 1 1 15-5z\"/>", "belloff": "<path d=\"m2 2 20 20\"/><path d=\"M18.6 13.4A2 2 0 0 1 18 12V8a6 6 0 0 0-9.3-5\"/><path d=\"M6.3 6.3A6 6 0 0 0 6 8v4a2 2 0 0 1-1.4 1.9L4 17h11\"/><path d=\"M10 21h4\"/>", "history": "<circle cx=\"12\" cy=\"12\" r=\"9\"/><path d=\"M12 7v5l3 3\"/>", "video": "<path d=\"m22 8-6 4 6 4V8z\"/><rect x=\"2\" y=\"6\" width=\"14\" height=\"12\" rx=\"2\"/>", "redo": "<path d=\"M21 7v6h-6\"/><path d=\"M3 17a9 9 0 0 1 15-6.7L21 13\"/>", "micoff": "<path d=\"m2 2 20 20\"/><path d=\"M9 9v3a3 3 0 0 0 5.1 2.1\"/><path d=\"M15 9.3V5a3 3 0 0 0-5.9-.8\"/><path d=\"M17 12.5a7 7 0 0 1-12-2.5\"/><path d=\"M12 17v4\"/>", "play": "<path d=\"M7 4.5v15l12-7.5z\"/>", "stop": "<rect x=\"6\" y=\"6\" width=\"12\" height=\"12\" rx=\"1.5\" fill=\"currentColor\" stroke=\"none\"/>"};
 function ic(n){return '<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+ICP[n]+'</svg>';}
 /* ============ ESTADO ============ */
 const PREFIX="pdv1-ramal-";
@@ -425,6 +441,168 @@ let ICE={iceServers:[
   {urls:"turn:standard.relay.metered.ca:443",username:"bf90901f63129b9e5221dfdc",credential:"G6EJ/OtfTt+EBrND"},
   {urls:"turns:standard.relay.metered.ca:443?transport=tcp",username:"bf90901f63129b9e5221dfdc",credential:"G6EJ/OtfTt+EBrND"}
 ]};
+
+/* ============================================================
+   PONTE — chamadas entre o navegador e o app Flutter
+   ------------------------------------------------------------
+   O app Flutter NÃO usa o servidor do PeerJS: ele troca "oferta/
+   resposta/candidatos" (sinalização WebRTC) direto pelo Firebase,
+   no nó /sinalizacao/{destino}/{origem}. Este bloco faz o navegador
+   também falar esse mesmo protocolo — em paralelo ao sistema normal
+   de ramais (PeerJS), sem mexer em nada dele. É por isso que existe
+   um botão extra "📱" ao lado do "Ligar" na lista de ramais.
+   ============================================================ */
+let pontPC = null, pontMicStream = null, pontOutro = null, pontTimerInt = null, pontSeg = 0;
+
+function pontMostrarOverlay(destino, titulo) {
+  document.getElementById('pontT2').innerText = destino;
+  document.getElementById('pontT3').innerText = titulo;
+  document.getElementById('pontAvatar').classList.add('ring');
+  document.getElementById('pontTimer').classList.add('hide');
+  document.getElementById('ovPonte').classList.add('show');
+}
+function pontConectadoUI() {
+  document.getElementById('pontT3').innerText = 'Em chamada';
+  document.getElementById('pontAvatar').classList.remove('ring');
+  document.getElementById('pontTimer').classList.remove('hide');
+  pontSeg = 0;
+  clearInterval(pontTimerInt);
+  pontTimerInt = setInterval(() => {
+    pontSeg++;
+    document.getElementById('pontTimer').innerText = fmtDur(pontSeg);
+  }, 1000);
+}
+function pontFecharOverlay() {
+  document.getElementById('ovPonte').classList.remove('show');
+  document.getElementById('pontBtnMute').classList.remove('ativo');
+  document.getElementById('pontTimer').innerText = '00:00';
+  clearInterval(pontTimerInt); pontTimerInt = null;
+}
+
+async function pontPrepararConexao(aoReceberAudio) {
+  pontPC = new RTCPeerConnection(ICE);
+  pontMicStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  pontMicStream.getTracks().forEach(t => pontPC.addTrack(t, pontMicStream));
+  pontPC.ontrack = (ev) => {
+    const audioEl = document.getElementById('pontRemoteAudio');
+    audioEl.srcObject = ev.streams[0];
+    audioEl.play().catch(() => {});
+    aoReceberAudio();
+  };
+}
+
+/* Ligar do navegador PARA um ramal que esteja no app Flutter */
+async function pontLigar(destino) {
+  if (pontPC) return toast('Já existe uma chamada da ponte em andamento.');
+  destino = String(destino).trim();
+  try {
+    await pontPrepararConexao(pontConectadoUI);
+  } catch (e) { return alert('Permita o acesso ao microfone!'); }
+
+  pontOutro = destino;
+  pontMostrarOverlay(destino, 'Chamando…');
+
+  const candidatosPendentes = [];
+  pontPC.onicecandidate = (ev) => {
+    if (ev.candidate) {
+      db.ref('sinalizacao/' + destino + '/' + usuario.ramal + '/candidatosOrigem').push({
+        candidate: ev.candidate.candidate,
+        sdpMid: ev.candidate.sdpMid,
+        sdpMLineIndex: ev.candidate.sdpMLineIndex
+      });
+    }
+  };
+
+  const oferta = await pontPC.createOffer();
+  await pontPC.setLocalDescription(oferta);
+
+  await db.ref('sinalizacao/' + destino + '/' + usuario.ramal).set({
+    oferta: { sdp: oferta.sdp, type: oferta.type },
+    ts: Date.now()
+  });
+
+  db.ref('sinalizacao/' + destino + '/' + usuario.ramal).on('value', async (snap) => {
+    const dados = snap.val();
+    if (!dados || !pontPC) return;
+    if (dados.resposta && pontPC.signalingState !== 'stable') {
+      await pontPC.setRemoteDescription(new RTCSessionDescription(dados.resposta));
+    }
+    if (dados.candidatosDestino) {
+      Object.values(dados.candidatosDestino).forEach(async (c) => {
+        try { await pontPC.addCandidate(new RTCIceCandidate(c)); } catch (e) {}
+      });
+    }
+  });
+}
+
+/* Escuta chamadas chegando do app Flutter (registrado após login) */
+async function pontEscutarChamadas() {
+  if (!usuario) return;
+  const meuNo = db.ref('sinalizacao/' + usuario.ramal);
+  await meuNo.remove(); // limpa sinalização velha ANTES de escutar, para não perder uma chamada nova que chegue durante a limpeza
+  meuNo.on('child_added', async (snap) => {
+    if (pontPC) { snap.ref.remove(); return; } // já em outra chamada da ponte
+    const origem = snap.key;
+    const dados = snap.val();
+    if (!dados || !dados.oferta) return;
+
+    try { await pontPrepararConexao(pontConectadoUI); }
+    catch (e) { toast('Chamada do app recebida, mas o microfone foi negado.'); return; }
+
+    pontOutro = origem;
+    pontMostrarOverlay(origem, 'Chamada do app…');
+    notificar && notificar('Chamada do app', 'Ramal ' + origem);
+
+    pontPC.onicecandidate = (ev) => {
+      if (ev.candidate) {
+        db.ref('sinalizacao/' + usuario.ramal + '/' + origem + '/candidatosDestino').push({
+          candidate: ev.candidate.candidate,
+          sdpMid: ev.candidate.sdpMid,
+          sdpMLineIndex: ev.candidate.sdpMLineIndex
+        });
+      }
+    };
+
+    await pontPC.setRemoteDescription(new RTCSessionDescription(dados.oferta));
+    if (dados.candidatosOrigem) {
+      Object.values(dados.candidatosOrigem).forEach(async (c) => {
+        try { await pontPC.addCandidate(new RTCIceCandidate(c)); } catch (e) {}
+      });
+    }
+    // O app Flutter continua enviando candidatos ICE por mais alguns instantes
+    // DEPOIS do primeiro snapshot (processo chamado "trickle ICE") — sem este
+    // listener extra, esses candidatos chegavam tarde demais e eram ignorados,
+    // o que podia impedir a chamada de conectar mesmo "tocando".
+    snap.ref.child('candidatosOrigem').on('child_added', async (c) => {
+      if (!pontPC) return;
+      try { await pontPC.addCandidate(new RTCIceCandidate(c.val())); } catch (e) {}
+    });
+
+    const resposta = await pontPC.createAnswer();
+    await pontPC.setLocalDescription(resposta);
+    await snap.ref.child('resposta').set({ sdp: resposta.sdp, type: resposta.type });
+  });
+}
+
+function pontMudo() {
+  if (!pontMicStream) return;
+  const t = pontMicStream.getAudioTracks()[0];
+  t.enabled = !t.enabled;
+  document.getElementById('pontBtnMute').classList.toggle('ativo', !t.enabled);
+}
+
+function pontEncerrar() {
+  if (pontPC) { try { pontPC.close(); } catch (e) {} pontPC = null; }
+  if (pontMicStream) { pontMicStream.getTracks().forEach(t => t.stop()); pontMicStream = null; }
+  if (usuario && pontOutro) {
+    db.ref('sinalizacao/' + usuario.ramal + '/' + pontOutro).remove();
+    db.ref('sinalizacao/' + pontOutro + '/' + usuario.ramal).off();
+    db.ref('sinalizacao/' + pontOutro + '/' + usuario.ramal).remove();
+  }
+  pontOutro = null;
+  pontFecharOverlay();
+}
+
 let iceCarregado=false;
 async function carregarICE(){
   if(!TURN_API||iceCarregado)return;
@@ -569,7 +747,7 @@ function entrarNoSistema(){
   document.getElementById('tbChat').classList.remove('hide');
   document.getElementById('tbEstudos').classList.remove('hide');
   if(window.Notification&&Notification.permission==='default')Notification.requestPermission();
-  iniciarPeer();escutarHistorico();escutarRecados();escutarAvisos();escutarTodosChats();escutarSalas();
+  iniciarPeer();escutarHistorico();escutarRecados();escutarAvisos();escutarTodosChats();pontEscutarChamadas();escutarSalas();
   aba('telefone');
 }
 
@@ -1416,7 +1594,8 @@ function renderTelefone(){
       <button class="fav ${favs[n]?'on':''}" title="Favorito" onclick="toggleFav('${esc(n)}')">${favs[n]?ic('star'):ic('staro')}</button>
       <span class="num">${esc(n)}</span>
       <span class="nome">${esc(r.nome)}${eu?' (você)':''}</span>
-      ${!eu&&st==='online'?`<button class="mini bg" onclick="ligarPara('${esc(n)}')">${ic('phone')}Ligar</button>`:`<span class="tag ${st==='ocupado'?'oc':st==='dnd'?'dd':''}">${nomeSt(st)}</span>`}
+      ${!eu&&st==='online'?`<button class="mini bg" onclick="ligarPara('${esc(n)}')">${ic('phone')}Ligar</button>
+      <button class="mini bgr" title="Ligar via app (Flutter)" onclick="pontLigar('${esc(n)}')">${ic('app')}</button>`:`<span class="tag ${st==='ocupado'?'oc':st==='dnd'?'dd':''}">${nomeSt(st)}</span>`}
     </div>`;
   };
   let html='';
@@ -1782,4 +1961,114 @@ function atualizarBotoesVideo(){
 function sairSala(silencioso){
   if(!salaAtual)return;
   const id=salaAtual;salaAtual=null;salaMicAtivo=false;
-  if(salaChatRef){salaChatRef.off();salaChatRef=null
+  if(salaChatRef){salaChatRef.off();salaChatRef=null;salaChatSala=null;}
+  db.ref('salas/'+id+'/membros/'+usuario.ramal).remove();
+  Object.values(salaPeers).forEach(p=>{try{p.call.close();}catch(e){}});
+  salaPeers={};
+  salaDesligarVideo();
+  salaMudo=false;
+  document.getElementById('salaMudoTxt').innerText="Mudo";
+  document.getElementById('btnSalaMudo').classList.remove('ativo');
+  if(micStream)micStream.getAudioTracks().forEach(t=>t.enabled=true);
+  db.ref('ramais/'+usuario.ramal).update({status:meuStatus()==='dnd'?'dnd':'online'});
+  document.getElementById('vSalaDentro').classList.add('hide');
+  document.getElementById('vSalasLista').classList.remove('hide');
+  soltarWakeLock();
+  if(!silencioso)toast("Você saiu da sala.");
+}
+function renderSalaDentro(){
+  if(!salaAtual)return;
+  atualizarBotaoMic();
+  escutarSalaChat();
+  const sl=salasCache[salaAtual]||salaLocalFallback||{nome:'Sala',materia:'',membros:{},criador:usuario.ramal,criadorNome:usuario.nome};
+  document.getElementById('salaTitulo').innerText=sl.nome;
+  document.getElementById('salaMateria').innerText=(sl.materia?sl.materia+" · ":"")+"criada por "+(sl.criadorNome||sl.criador);
+  const membros=sl.membros||{};
+  /* participantes */
+  document.getElementById('salaMembros').innerHTML=Object.keys(membros).sort((a,b)=>a-b).map(r=>{
+    const m=membros[r];
+    return `<div class="membroRow"><span class="st online"></span>
+      <span class="num">${esc(r)}</span><span style="flex:1">${esc(m.nome)}${r===usuario.ramal?' (você)':''}</span>
+      ${m.video==='cam'?'<span class="tag on">câmera</span>':m.video==='screen'?'<span class="tag oc">tela</span>':''}
+      ${m.mudo?'<span class="mud">MUDO</span>':''}</div>`;
+  }).join('');
+  /* grade de vídeos */
+  const grade=document.getElementById('gradeVideos');
+  let tiles='';
+  if(salaVideoModo)tiles+=`<div class="tile"><video id="tile-eu" autoplay playsinline muted></video><span class="rot">Você</span></div>`;
+  Object.keys(salaPeers).forEach(r=>{
+    const mv=(membros[r]||{}).video;
+    if(mv&&salaPeers[r].remoteStream)tiles+=`<div class="tile"><video id="tile-${r}" autoplay playsinline muted></video><span class="rot">${esc(r)}</span></div>`;
+  });
+  grade.innerHTML=tiles;
+  if(salaVideoModo){
+    const v=document.getElementById('tile-eu');
+    if(v)v.srcObject=salaVideoModo==='cam'?salaCamStream:salaTelaStream;
+  }
+  Object.keys(salaPeers).forEach(r=>{
+    const v=document.getElementById('tile-'+r);
+    if(v&&salaPeers[r].remoteStream)v.srcObject=salaPeers[r].remoteStream;
+  });
+  /* tópicos */
+  escutarTopicos();
+}
+let topRef=null,topSala=null;
+function escutarTopicos(){
+  if(topSala===salaAtual)return;
+  if(topRef)topRef.off();
+  topSala=salaAtual;
+  topRef=db.ref('salas/'+salaAtual+'/topicos');
+  topRef.on('value',snap=>{
+    const dados=snap.val()||{};
+    const el=document.getElementById('salaTopicos');
+    const keys=Object.keys(dados).sort((a,b)=>dados[a].ts-dados[b].ts);
+    if(!keys.length){el.innerHTML='<div class="sub">Nenhum assunto anotado.</div>';return;}
+    const sl=salasCache[salaAtual]||{};
+    el.innerHTML=keys.map(k=>{
+      const t=dados[k];
+      const pode=t.de===usuario.ramal||sl.criador===usuario.ramal;
+      return `<div class="topico"><div style="flex:1"><div class="txt">${esc(t.txt)}</div>
+        <div class="quem">${esc(t.deNome||t.de)} · ${fmtTs(t.ts)}</div></div>
+        ${pode?`<button class="mini bgr" style="padding:4px 9px" onclick="delTopico('${k}')">×</button>`:''}</div>`;
+    }).join('');
+  });
+}
+function addTopico(){
+  const txt=document.getElementById('inpTopico').value.trim();
+  if(!txt||!salaAtual)return;
+  db.ref('salas/'+salaAtual+'/topicos').push({txt,de:usuario.ramal,deNome:usuario.nome,ts:Date.now()});
+  document.getElementById('inpTopico').value='';
+}
+function delTopico(k){if(salaAtual)db.ref('salas/'+salaAtual+'/topicos/'+k).remove();}
+
+let salaChatRef=null,salaChatSala=null;
+function escutarSalaChat(){
+  if(salaChatSala===salaAtual)return;
+  if(salaChatRef)salaChatRef.off();
+  salaChatSala=salaAtual;
+  if(!salaAtual)return;
+  salaChatRef=db.ref('salas/'+salaAtual+'/mensagens').limitToLast(80);
+  salaChatRef.on('value',snap=>{
+    const dados=snap.val()||{};
+    const box=document.getElementById('salaChatMsgs');if(!box)return;
+    const keys=Object.keys(dados).sort((a,b)=>dados[a].ts-dados[b].ts);
+    box.innerHTML=keys.map(k=>{
+      const m=dados[k];
+      return `<div class="msg ${m.de===usuario.ramal?'eu':'ele'}">${esc(m.txt)}<div class="h">${esc(m.deNome||m.de)} · ${fmtTs(m.ts)}</div></div>`;
+    }).join('');
+    box.scrollTop=box.scrollHeight;
+  },e=>console.error(e));
+}
+function salaEnviarMsg(){
+  const inp=document.getElementById('salaChatTxt');
+  const txt=inp.value.trim();
+  if(!txt||!salaAtual)return;
+  db.ref('salas/'+salaAtual+'/mensagens').push({txt,de:usuario.ramal,deNome:usuario.nome,ts:Date.now()});
+  inp.value='';
+}
+window.addEventListener('beforeunload',()=>{if(salaAtual)db.ref('salas/'+salaAtual+'/membros/'+usuario.ramal).remove();});
+
+function renderAdmin(){}
+</script>
+</body>
+</html>
