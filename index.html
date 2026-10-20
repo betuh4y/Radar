@@ -75,6 +75,18 @@ input[type=text]:focus{border-color:var(--ac)}
 #cell .r{display:flex;align-items:center;gap:6px;margin:2px 0}#cell .r span{width:62px;color:var(--mut)}#cell .r .bar{flex:1}
 #cell .pl{margin-top:4px;line-height:1.35}
 #ia{position:fixed;left:50%;bottom:calc(84px + var(--sb));transform:translateX(-50%);padding:6px 12px;font-weight:700;font-size:13px;display:none}
+#guide{position:fixed;left:50%;top:calc(10px + var(--st));transform:translateX(-50%);padding:6px 14px;font-weight:800;font-size:14px;display:none;border-color:rgba(242,193,75,.7);color:#ffe7a0;pointer-events:none}
+body.mob #guide{top:auto;bottom:calc(66px + var(--sb));font-size:12px}
+#chat{position:fixed;left:calc(10px + var(--sl));bottom:calc(52px + var(--sb));width:310px;padding:8px;display:none;pointer-events:auto;font-size:12px}
+#chatL{max-height:130px;overflow:auto;margin-bottom:6px;line-height:1.4}#chatL .pf{color:var(--gold)}
+#chatQ{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:6px}#chatQ button{border:1px solid var(--line);background:rgba(255,255,255,.07);border-radius:8px;padding:3px 6px;font-size:11px;font-weight:700}
+#chatI{flex:1;padding:7px 9px;border-radius:8px;border:1px solid var(--line);background:rgba(0,0,0,.35);color:var(--txt);font-size:14px;outline:none;min-width:0}
+body.mob #chat{bottom:auto;top:calc(56px + var(--st));width:min(300px,45vw);z-index:9}
+.ib.new{box-shadow:0 0 0 2px var(--gold);animation:pul 1s infinite}@keyframes pul{50%{transform:scale(1.08)}}
+.bub{position:absolute;left:0;top:0;max-width:220px;background:#fff;color:#1a1a1a;font-size:12px;font-weight:700;padding:5px 9px;border-radius:12px;white-space:normal;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,.4);will-change:transform}
+.sw{width:34px;height:34px;border-radius:50%;border:3px solid rgba(255,255,255,.25)}.sw[aria-pressed=true]{border-color:#fff;box-shadow:0 0 0 2px var(--ac)}
+select,input[type=number]{padding:8px;border-radius:8px;border:1px solid var(--line);background:rgba(0,0,0,.35);color:var(--txt);font-size:14px;font-family:inherit;width:100%}
+.tbl{width:100%;border-collapse:collapse;font-size:12px}.tbl th{text-align:left;color:var(--mut);font-size:11px;padding:4px}.tbl td{padding:5px 4px;border-top:1px solid var(--line)}
 #tip{position:fixed;left:50%;top:calc(64px + var(--st));transform:translateX(-50%);width:min(440px,70vw);padding:10px 12px;display:none;gap:10px;align-items:flex-start;border-color:rgba(155,216,90,.5)}
 #tip i{font-style:normal;font-size:28px}#tip b{display:block;color:var(--ac);font-size:13px;margin-bottom:2px}#tip p{margin:0;font-size:12.5px;line-height:1.4}
 #toast{position:fixed;left:50%;top:38%;transform:translateX(-50%);padding:8px 16px;font-weight:700;font-size:14px;opacity:0;transition:opacity .25s;text-align:center}
@@ -152,6 +164,7 @@ body.mob #tip{top:auto;bottom:calc(70px + var(--sb));width:min(420px,55vw)}
     <label>Gráficos</label>
     <div class="qrow" id="lQ"></div>
     <div id="lerr" role="alert"></div>
+    <label style="display:flex;gap:8px;align-items:center;text-transform:none;letter-spacing:0;font-size:13px;color:var(--txt);margin-top:10px"><input type="checkbox" id="prof" style="width:18px;height:18px"> 👩‍🏫 Sou professor(a): quero acompanhar a turma</label>
     <button id="go">ENTRAR NO SÍTIO</button>
   </div>
 </div></div>
@@ -164,13 +177,14 @@ body.mob #tip{top:auto;bottom:calc(70px + var(--sb));width:min(420px,55vw)}
   <div id="hud">
     <div id="clock" class="pn"><div><div class="big" id="cH">06:00</div><small id="cD">Dia 1</small></div><div style="font-size:26px" id="cW">☀️</div><div><b id="cT">28°C</b><small id="cS">Chuvosa</small></div></div>
     <div id="stats"><div class="pn">💰 <span id="sCoin">0</span></div><div class="pn" id="lvl"><div class="t"><b id="sLvT">Nível 1</b><span id="sXp">0/80</span></div><div class="bar"><i id="sXpB"></i></div></div></div>
-    <div id="topb"><button class="ib" id="bPan" title="Painel do sítio (P)">📊</button><button class="ib" id="bEnc" title="Enciclopédia (L)">📖</button><button class="ib" id="bPrev" title="Previsão do tempo">📻</button><button class="ib" id="bMenu" title="Menu">⚙</button></div>
+    <div id="topb"><button class="ib" id="bProf" title="Painel do professor" style="display:none">👩‍🏫</button><button class="ib" id="bChat" title="Chat da comunidade (C)">💬</button><button class="ib" id="bLook" title="Personalizar">👕</button><button class="ib" id="bHome" title="Ir para meu sítio (H)">🏡</button><button class="ib" id="bPan" title="Painel do sítio (P)">📊</button><button class="ib" id="bEnc" title="Enciclopédia (L)">📖</button><button class="ib" id="bPrev" title="Previsão do tempo">📻</button><button class="ib" id="bMenu" title="Menu">⚙</button></div>
     <div id="mis" class="pn"><h4 id="misH"><span>🎯 Objetivos</span><span id="misT">▾</span></h4><div class="body"><div class="tut" id="tutT"></div><div id="misL"></div></div></div>
     <div id="water" class="pn">💧 Regador <span id="wN">10/10</span><div class="bar"><i id="wB" style="width:100%"></i></div></div>
     <div id="cell" class="pn"></div>
-    <div id="ia" class="pn"></div>
+    <div id="ia" class="pn"></div><div id="guide" class="pn"></div>
     <div id="tip" class="pn"><i id="tipI">🌱</i><div><b id="tipT"></b><p id="tipP"></p></div></div>
     <div id="toast" class="pn"></div>
+    <div id="chat" class="pn"><div id="chatL"></div><div id="chatQ"></div><div style="display:flex;gap:4px"><input type="text" id="chatI" maxlength="120" placeholder="Escreva e aperte Enter…"><button class="mb" id="chatS" style="min-width:0;flex:0 0 auto;padding:6px 10px">➤</button><button class="mb" id="chatG" style="min-width:0;flex:0 0 auto;padding:6px 10px" title="Dar sementes">🎁</button></div></div>
     <div id="lvup"></div>
   </div>
   <div id="tools" class="pn">
@@ -186,7 +200,10 @@ body.mob #tip{top:auto;bottom:calc(70px + var(--sb));width:min(420px,55vw)}
   <div class="ov" id="seed"><div class="box"><h3>🌱 O que plantar? <button class="x" data-close>✕</button></h3><div id="seedInfo" style="font-size:12px;color:var(--mut);margin-bottom:8px"></div><div class="grid" id="seedG"></div></div></div>
   <div class="ov" id="shop"><div class="box"><h3>🧺 Feira da Comunidade <button class="x" data-close>✕</button></h3><div class="tabs" id="shopT"></div><div id="shopB"></div></div></div>
   <div class="ov" id="enc"><div class="box"><h3>📖 Enciclopédia <button class="x" data-close>✕</button></h3><div class="tabs" id="encT"></div><div class="grid" id="encG"></div></div></div>
-  <div class="ov" id="pan"><div class="box"><h3>📊 Painel do sítio <button class="x" data-close>✕</button></h3><div id="panB"></div></div></div>
+  <div class="ov" id="pan"><div class="box"><h3>📊 Painel do sítio <button class="x" data-close>✕</button></h3><div class="tabs" id="panT"></div><div id="panB"></div></div></div>
+  <div class="ov" id="custom"><div class="box"><h3>👕 Personalizar <button class="x" data-close>✕</button></h3><div id="customB"></div></div></div>
+  <div class="ov" id="gift"><div class="box"><h3>🎁 Dar sementes crioulas <button class="x" data-close>✕</button></h3><div id="giftB"></div></div></div>
+  <div class="ov" id="profm"><div class="box"><h3>👩‍🏫 Painel do professor <button class="x" data-close>✕</button></h3><div id="profB"></div></div></div>
   <div class="ov" id="prev"><div class="box"><h3>📻 Rádio do Sítio: previsão <button class="x" data-close>✕</button></h3><div id="prevB"></div></div></div>
   <div class="ov" id="dlg"><div class="box"><div class="av">👴🏽</div><div style="flex:1"><b>Seu Zé</b><p id="dlgP"></p><div class="row"><button class="mb pri" data-close>Entendi!</button></div></div></div></div>
   <div class="ov" id="menu"><div class="box"><h3>⚙ Menu <button class="x" data-close>✕</button></h3>
@@ -362,8 +379,8 @@ const MIS=[
   {id:"quiz",t:"Acerte {n} perguntas do quiz na feira",n:2,r:[20,30]},
   {id:"mutirao",t:"Ajude um vizinho em {n} canteiros (mutirão)",n:3,r:[40,60]}];
 const TUT=[
-  {t:"Vá até o centro da comunidade e converse com o <b>Seu Zé</b> 👴🏽 (tecla F ou botão 💬).",z:"Bem-vindo à comunidade! Essa terra que você recebeu está cansada: só capim e chão pelado. Vamos transformar isso numa agrofloresta! Primeiro, pegue o facão 🔪 e roce o capim de 3 canteiros. O capim cortado fica no chão como cobertura, protegendo o solo."},
-  {t:"Com o <b>facão 🔪</b>, roce o capim de 3 canteiros do seu sítio.",n:3,ev:"rocar",z:"Muito bem! Agora a terra está coberta. Plante <b>feijão</b> e <b>milho</b> no MESMO canteiro: o feijão aduba e o milho cresce rápido. Isso se chama consórcio."},
+  {t:"Vá até o centro da comunidade e converse com o <b>Seu Zé</b> 👴🏽 (tecla F ou botão 💬).",z:"Bem-vindo à comunidade! Essa terra que você recebeu está cansada: só capim e chão pelado. Vamos transformar isso numa agrofloresta! Seu sítio é o lote com a <b>placa amarela com seu nome</b> e o facho de luz: siga o facho de luz amarelo ou toque no botão 🏡. Chegando lá, pegue o facão 🔪 e roce o capim de 3 canteiros. O capim cortado fica no chão como cobertura, protegendo o solo."},
+  {t:"Vá até o <b>seu sítio</b> (o lote com o <b>facho de luz amarelo</b>, ou toque em 🏡) e, com o <b>facão 🔪</b>, roce o capim de 3 canteiros.",n:3,ev:"rocar",z:"Muito bem! Agora a terra está coberta. Plante <b>feijão</b> e <b>milho</b> no MESMO canteiro: o feijão aduba e o milho cresce rápido. Isso se chama consórcio."},
   {t:"Plante <b>feijão e milho no mesmo canteiro</b> (ferramenta 🌱).",n:1,ev:"consorcio",z:"Isso! Agora plante uma árvore <b>adubadeira</b> (sabiá, ingá ou gliricídia). Mais tarde você vai podá-la para adubar o solo."},
   {t:"Plante uma árvore <b>adubadeira</b> 🌿 (estrato alto).",n:1,ev:"adubadeira",z:"Ótimo! Plantas pequenas precisam de água. Use o <b>regador 💧</b> nos canteiros. Quando ele esvaziar, encha no poço da comunidade."},
   {t:"<b>Regue</b> 3 canteiros com o regador 💧.",n:3,ev:"regar",z:"Agora é esperar crescer. O tempo passa: cada dia aqui dura 10 minutos. Quando o feijão ou o milho estiverem maduros, use a <b>cesta 🧺</b> para colher."},
@@ -689,9 +706,9 @@ function mergeKids(grp){const by=new Map(),rm=[];for(const c of grp.children){if
   if(rm.length<2)return grp;rm.forEach(c=>grp.remove(c));for(const [m,l] of by){const g=THREE.BufferGeometryUtils.mergeBufferGeometries(l);if(g)grp.add(new THREE.Mesh(g,m))}return grp}
 function mergeDeep(grp){grp.children.slice().forEach(c=>{if(!c.isMesh&&c.children.length)mergeDeep(c)});return mergeKids(grp)}
 const SHIRTS=[0xc0392b,0x2e86c1,0x27ae60,0xd68910,0x8e44ad,0xe8e0d0,0x16a085,0xd35400];
-function farmer(colIdx,old){const g=new THREE.Group(),u=g.userData,sh=Q>=2;
+function farmer(colIdx,old){const LK=typeof colIdx==="object"?colIdx:{s:colIdx,p:old?6:0,h:0};colIdx=LK.s;const g=new THREE.Group(),u=g.userData,sh=Q>=2;
   const M=(c,r)=>mat("av"+c+(r||""),null,{color:c,r:r||.85});
-  const shirt=M(SHIRTS[colIdx%SHIRTS.length]),pants=M(old?0x6a5a48:0x34495e),skin=M(0xb98262,.6),boot=M(0x3a2a1c),hat=mat("hat",genPBR("straw",128,T_STRAW,2),{r:1,color:0xe8d8a8}),band=M(0x6a3a1a);
+  const shirt=M(SHIRTS[colIdx%SHIRTS.length]),pants=M(PANTS[(LK.p||0)%PANTS.length]),skin=M(0xb98262,.6),boot=M(0x3a2a1c),hat=mat("hat",genPBR("straw",128,T_STRAW,2),{r:1,color:0xe8d8a8}),band=M(0x6a3a1a);
   const C=(r1,r2,h,m,seg)=>new THREE.Mesh(new THREE.CylinderGeometry(r1,r2,h,seg||10),m),Bx=(w,h,d,m)=>new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);
   const at=(o,x,y,z,p)=>{o.position.set(x,y,z);p.add(o);return o};
   const leg=x=>{const l=new THREE.Group();l.position.set(x,.88,0);at(C(.09,.075,.84,pants),0,-.42,0,l);at(Bx(.13,.13,.27,boot),0,-.83,-.05,l);g.add(l);return l};
@@ -701,7 +718,10 @@ function farmer(colIdx,old){const g=new THREE.Group(),u=g.userData,sh=Q>=2;
   at(C(.06,.07,.1,skin),0,.68,0,body);const head=new THREE.Group();head.position.y=.84;body.add(head);u.head=head;
   const hs=new THREE.Mesh(new THREE.SphereGeometry(.12,14,10),skin);hs.scale.set(1,1.12,1.05);head.add(hs);at(Bx(.03,.04,.04,skin),0,-.01,-.12,head);
   if(old){at(new THREE.Mesh(new THREE.SphereGeometry(.1,10,8),M(0xf0eee8)),0,-.08,-.05,head).scale.set(1,.9,.8)}
-  at(C(.3,.3,.03,hat,20),0,.07,0,head);at(C(.1,.13,.14,hat,14),0,.15,0,head);at(C(.135,.135,.03,band,14),0,.1,0,head);
+  if(!LK.h){at(C(.3,.3,.03,hat,20),0,.07,0,head);at(C(.1,.13,.14,hat,14),0,.15,0,head);at(C(.135,.135,.03,band,14),0,.1,0,head)}
+  else if(LK.h===1){const lt=M(0x6a4024,.7);at(C(.28,.28,.025,lt,20),0,.07,0,head);at(C(.1,.14,.16,lt,14),0,.16,0,head);const fr=at(new THREE.Mesh(new THREE.CylinderGeometry(.2,.2,.02,20,1,false,0,Math.PI),lt),0,.18,-.06,head);fr.rotation.set(Math.PI/2-.3,0,Math.PI/2);at(new THREE.Mesh(new THREE.OctahedronGeometry(.03,0),M(0xd8b040,.3)),0,.2,-.16,head)}
+  else if(LK.h===2){const cp=M(SHIRTS[(colIdx+3)%SHIRTS.length]);at(new THREE.Mesh(new THREE.SphereGeometry(.13,12,8,0,Math.PI*2,0,Math.PI/2),cp),0,.04,0,head);at(Bx(.2,.015,.15,cp),0,.05,-.16,head)}
+  else{const sc=M(SHIRTS[(colIdx+5)%SHIRTS.length]);const s=at(new THREE.Mesh(new THREE.SphereGeometry(.128,12,8,0,Math.PI*2,0,Math.PI*.6),sc),0,.02,.01,head);at(new THREE.Mesh(new THREE.SphereGeometry(.04,6,4),sc),0,-.02,.13,head)}
   const arm=(x,s)=>{const a=new THREE.Group();a.position.set(x,.58,0);at(C(.06,.05,.32,shirt),0,-.16,0,a);const f=new THREE.Group();f.position.y=-.32;a.add(f);at(C(.05,.045,.28,skin),0,-.14,0,f);at(Bx(.08,.1,.09,skin),0,-.31,0,f);body.add(a);a.userData.f=f;return a};
   u.aL=arm(-.24);u.aR=arm(.24);u.tool=new THREE.Group();u.tool.position.set(0,-.36,-.05);u.aR.userData.f.add(u.tool);u.toolId=-1;
   mergeDeep(g);g.traverse(m=>{if(m.isMesh)m.castShadow=sh});
@@ -759,7 +779,8 @@ function weatherAt(H,bio){const B=BIO[bio],seed=strHash(bio)%100000,day=Math.flo
   const rr=hash1(seed,blk),rain=rr<p?(hash1(seed+3,blk)<.3?2:1):0;
   const temp=B.tB+B.tA*Math.sin((hr-9)/24*Math.PI*2)+(rainy?-1.5:2)-rain*3+(heat?3.5:0);
   const cloud=rain?.92:clamp(hash1(seed+5,blk)*(rainy?.7:.25),0,1),wind=.25+hash1(seed+9,blk)*.6*(rain===2?2.2:1);
-  return {rain,temp,cloud,wind,rainy,doy,day,hr,veran,heat}}
+  const frost=(bio==="cerrado"||bio==="atlantica")&&!rainy&&hr>=2&&hr<=6&&hash1(seed+13,day)<.22,flood=bio==="amazonia"&&rainy&&hash1(seed+17,Math.floor(day/2))<.18,gale=rain===2&&wind>1.0;
+  return {rain,temp:frost?2+hash1(seed+19,H)*2:temp,cloud,wind,rainy,doy,day,hr,veran,heat,frost,flood,gale}}
 const WICO=w=>w.rain===2?"⛈️":w.rain?"🌧️":w.cloud>.5?"⛅":(w.hr<6||w.hr>=18)?"🌙":w.heat?"🔥":"☀️";
 /* ---------- fazenda (estado) ---------- */
 let F=null,FK=null;// fazenda do jogador e chave
@@ -789,8 +810,8 @@ function simHour(f,H,online){const W=weatherAt(H,f.bio),evMul=.85+.035*f.lvl,ev=
     if(c.k<25&&can<.4)c.g=Math.min(100,c.g+.55*(1-c.k/25)*(W.rain?1.4:.5));else c.g=Math.max(0,c.g-.3-can);
     if(c.b>0)c.b--;
     for(const k in c.p){const p=c.p[k],sp=SP[p.s];if(!sp){delete c.p[k];continue}
-      const sh=shadeFor(c,+k),light=1-sh*(1-sp.sh),need=sp.w*45+1,wF=c.a>=need?1:Math.max(.1,c.a/need),soil=.45+c.v/100*.85,cons=1+.08*(strata-1),capF=1-c.g/220,pest=p.q?.4:1,boost=c.b>0?1.5:1;
-      const G=Math.max(0,light*wF*soil*cons*capF*pest*boost);p.t+=G;const g=growth(p);
+      const sh=shadeFor(c,+k),light=1-sh*(1-sp.sh),need=sp.w*(p.cr?.8:1)*45+1,wF=c.a>=need?1:Math.max(.1,c.a/need),soil=.45+c.v/100*.85,cons=1+.08*(strata-1),capF=1-c.g/220,pest=p.q?.4:1,boost=c.b>0?1.5:1;
+      const G=Math.max(0,light*wF*soil*cons*capF*pest*boost*(p.cr?1.12:1));p.t+=G;const g=growth(p);
       const dry=c.a<sp.w*25;if(dry)p.h-=(sp.w*25-c.a)*.12+(W.temp>34?.6:0);else p.h=Math.min(100,p.h+1.5);if(p.q)p.h-=.35;
       if(p.h<=0){delete c.p[k];c.k=Math.min(100,c.k+20);ev.push({t:"morte",i,s:sp.n});continue}
       if(g>=1&&sp.prod){if(sp.cyc>0){if(!p.r){p.c=(p.c||0)+G*(f.up.colmeia&&sp.flor?1.25:1);if(p.c>=sp.cyc*24){p.r=1;p.c=0}}}else p.r=1}
@@ -807,7 +828,7 @@ function simHour(f,H,online){const W=weatherAt(H,f.bio),evMul=.85+.035*f.lvl,ev=
       if(cap.length&&hash1(seed+H,77)<.035*D*Math.min(1,cap.length/8)){const c=cap[Math.floor(hash1(seed,H)*cap.length)];c.f=1;ev.push({t:"fogo"})}}
     if(W.hr===7){const sc=Object.keys(spc).length;if(hash1(seed+H,13)<.35*D*clamp(1-sc/7,0,1)){const pl=[];for(let i=0;i<100;i++)for(const k in f.c[i].p)pl.push(f.c[i].p[k]);if(pl.length>2){const tgt=pl[Math.floor(hash1(seed,H+1)*pl.length)];if(!tgt.q){tgt.q=1;ev.push({t:"praga",s:SP[tgt.s].n})}}}}
     if(faunaOf(f).filter(a=>a.id.startsWith("ave")).length)for(let i=0;i<100;i++)for(const k in f.c[i].p){const p=f.c[i].p[k];if(p.q&&hash1(seed+H+i,k)<.12){p.q=0;ev.push({t:"aveComeu"})}}}
-  f.last=H;return {W,ev}}
+  extraSim(f,H,W,online,ev);f.last=H;return {W,ev}}
 /* ---------- fauna a partir do estado ---------- */
 function farmStats(f){let sp={},flor=0,alto=0,emer=0,str=[0,0,0,0],vida=0,agua=0,cob=0,n=0,capim=0,carb=0,temp=0;const W=weatherAt(gameHours(),f.bio);
   for(let i=0;i<100;i++){if(!unlocked(f.size,i))continue;const c=f.c[i];n++;vida+=c.v;agua+=c.a;cob+=c.k;if(c.g>40)capim++;const can=canopy(f,i);temp+=W.temp+(W.hr>=7&&W.hr<=17?10*(1-c.k/100)*(1-can):0);
@@ -816,8 +837,8 @@ function farmStats(f){let sp={},flor=0,alto=0,emer=0,str=[0,0,0,0],vida=0,agua=0
   return {nsp,flor,alto,emer,strata,vida:n?vida/n:0,agua:n?agua/n:0,cob:n?cob/n:0,capim,carb,temp:n?temp/n:0,sc:nsp*2+strata*3+alto*2+(n?vida/n:0)/10,n}}
 function faunaOf(f){const s=farmStats(f),L=BIO[f.bio].fauna;return L.filter(a=>{const r=a.req;if(r.startsWith("flor"))return s.flor>=+r.slice(4);if(r.startsWith("sc"))return s.sc>=+r.slice(2);if(r.startsWith("alto"))return s.alto>=+r.slice(4);return false})}
 /* ---------- previsão ---------- */
-function forecast(bio,H0){const out=[];const d0=Math.floor(H0/24);for(let d=0;d<3;d++){let rh=0,st=0,tmax=-99,tmin=99,heat=false,veran=false,rainy=false;for(let h=0;h<24;h++){const w=weatherAt((d0+d)*24+h,bio);if(w.rain)rh++;if(w.rain===2)st++;tmax=Math.max(tmax,w.temp);tmin=Math.min(tmin,w.temp);heat=heat||w.heat;veran=veran||w.veran;rainy=w.rainy}
-  out.push({d:d0+d,rh,st,tmax,tmin,heat,veran,rainy,ico:st?"⛈️":rh>5?"🌧️":rh?"🌦️":heat?"🔥":"☀️"})}return out}
+function forecast(bio,H0){const out=[];const d0=Math.floor(H0/24);for(let d=0;d<3;d++){let rh=0,st=0,tmax=-99,tmin=99,heat=false,veran=false,rainy=false,frost=false,flood=false,gale=false;for(let h=0;h<24;h++){const w=weatherAt((d0+d)*24+h,bio);if(w.rain)rh++;if(w.rain===2)st++;tmax=Math.max(tmax,w.temp);tmin=Math.min(tmin,w.temp);heat=heat||w.heat;veran=veran||w.veran;rainy=w.rainy;frost=frost||w.frost;flood=flood||w.flood;gale=gale||w.gale}
+  out.push({d:d0+d,rh,st,tmax,tmin,heat,veran,rainy,frost,flood,gale,ico:frost?"❄️":flood?"🌊":gale?"🌬️":st?"⛈️":rh>5?"🌧️":rh?"🌦️":heat?"🔥":"☀️"})}return out}
 function seasonInfo(bio,H){const B=BIO[bio],day=Math.floor(H/24),doy=((day%YEAR_DAYS)+YEAR_DAYS)%YEAR_DAYS,rainy=doy<B.rainy,left=rainy?B.rainy-doy:YEAR_DAYS-doy;return {rainy,left,n:rainy?"Estação chuvosa":"Estação seca"}}
 
 /* =====================================================================
@@ -834,7 +855,7 @@ const R=p=>db.ref("agro/"+p);
 function normCell(c,i,size){if(!c)c=newCell(i,size);for(const k of ["v","a","k","g","f","b","u"])if(c[k]==null)c[k]=0;
   if(!c.p)c.p={};else if(Array.isArray(c.p)){const o={};c.p.forEach((v,k)=>{if(v)o[k]=v});c.p=o}else for(const k in c.p)if(!c.p[k]||!SP[c.p[k].s])delete c.p[k];return c}
 function normFarm(f){if(!f)return null;f.size=f.size||6;const c={};for(let i=0;i<100;i++)c[i]=normCell(f.c&&f.c[i],i,f.size);f.c=c;
-  for(const k of ["inv","sem","up","ach","st"])if(!f[k]||typeof f[k]!=="object")f[k]={};f.enc=f.enc||{};for(const k of ["sp","fa","co"])f.enc[k]=f.enc[k]||{};
+  for(const k of ["inv","sem","up","ach","st","cri","goals"])if(!f[k]||typeof f[k]!=="object")f[k]={};f.enc=f.enc||{};for(const k of ["sp","fa","co"])f.enc[k]=f.enc[k]||{};
   if(!Array.isArray(f.mis))f.mis=f.mis?Object.values(f.mis):[];f.mis=f.mis.filter(Boolean);for(const k of ["coins","xp","tut","tp","w","cis","mel"])f[k]=f[k]||0;f.lvl=f.lvl||1;return f}
 /* ---------- salvar ---------- */
 function save(now){clearTimeout(saveT);saveT=setTimeout(doSave,now?10:1500)}
@@ -844,7 +865,7 @@ const dirtyAll=()=>{for(let i=0;i<100;i++)DIRTY.add(i)};
 const touch=i=>{F.c[i].u=Date.now();DIRTY.add(i);needRebuild=true};
 /* ---------- entrar ---------- */
 async function join(){
-  me.n=($("nome").value.trim()||"Agricultor").slice(0,14);LS.set("agro_nome",me.n);LS.set("agro_bio",me.bio);
+  me.n=($("nome").value.trim()||"Agricultor").slice(0,14);me.prof=$("prof").checked;LS.set("agro_prof",me.prof);LS.set("agro_nome",me.n);LS.set("agro_bio",me.bio);
   const sala=($("sala").value.trim().toLowerCase().replace(/[^a-z0-9-_]/g,"-")||"comunidade-1");LS.set("agro_sala",sala);room=sala+"_"+me.bio;FK=me.uid+"_"+me.bio;
   $("lobby").style.display="none";$("load").style.display="flex";const step=async(t,p)=>{$("loadT").textContent=t;$("loadB").style.width=p+"%";await new Promise(r=>setTimeout(r,30))};
   await step("Conectando à comunidade…",8);
@@ -862,7 +883,7 @@ async function join(){
   mySlot=await claimSlot();
   views[mySlot]={slot:mySlot,fk:FK,farm:F,own:true};makeView(views[mySlot]);
   const sp=slotPos(mySlot),gd=gateDir(mySlot);P.x=sp.x+gd.x*(HALF+3);P.z=sp.z+gd.z*(HALF+3);P.yw=Math.atan2(gd.x,gd.z);cam.yaw=P.yw;
-  me.av=farmer(F.col||0);scene.add(me.av);setTool(me.av,P.tool);
+  me.av=farmer(lookOf(F));scene.add(me.av);setTool(me.av,P.tool);
   if(fbOk())startNet();
   await step("Pronto!",100);
   $("load").style.display="none";$("game").style.display="block";document.body.classList.add("ingame");$("mRoom").textContent="Comunidade: "+sala+" · "+BIO[me.bio].n+(fbOk()?"":" · modo offline");
@@ -885,12 +906,13 @@ function startNet(){
   base.child("p").on("child_removed",s=>dropOther(s.key));
   base.child("feed").limitToLast(4).on("child_added",s=>{const v=s.val();if(v&&Date.now()-(v.ts||0)<20000&&v.uid!==me.uid)toast("🏘️ "+v.m)});
   farmRef.child("help").on("child_added",s=>{const v=s.val();s.ref.remove();if(!v||Date.now()-(v.ts||0)>600000)return;rewardFloat(v.xp||5,0,null,"🤝");toast("🤝 "+v.n+" "+v.a+" no seu sítio! +"+(v.xp||5)+" ⭐");lesson("mutirao")});
+  startNet2(base);
   farmRef.child("c").on("child_changed",s=>{const i=+s.key,v=s.val();if(!v||isNaN(i))return;const c=normCell(v,i,F.size);if((c.u||0)>(F.c[i].u||0)+5){F.c[i]=c;needRebuild=true}});
 }
 const feed=m=>{if(fbOk())R("rooms/"+room+"/feed").push({m,ts:Date.now(),uid:me.uid})};
-function netState(){return {n:me.n,uid:me.uid,fk:FK,slot:mySlot,x:+P.x.toFixed(2),z:+P.z.toFixed(2),yw:+P.yw.toFixed(2),tool:P.tool,an:P.an,col:F.col||0,lvl:F.lvl,hb:Date.now()}}
+function netState(){return {n:me.n,uid:me.uid,fk:FK,slot:mySlot,x:+P.x.toFixed(2),z:+P.z.toFixed(2),yw:+P.yw.toFixed(2),tool:P.tool,an:P.an,col:F.col||0,lk:lkStr(lookOf(F)),prof:me.prof?1:0,lvl:F.lvl,hb:Date.now()}}
 function upOther(id,d){if(id===me.id||!d)return;let o=others[id];if(!o){o=others[id]={id,rx:d.x,rz:d.z}}Object.assign(o,d);
-  if(!o.av){o.av=farmer(d.col||0);scene.add(o.av);o.lb=document.createElement("div");o.lb.className="nl";$("lbls").appendChild(o.lb)}
+  if(o.av&&o.lkB!==d.lk){scene.remove(o.av);o.av=null;o.toolId=null}if(!o.av){o.lkB=d.lk;o.av=farmer(d.lk?lkParse(d.lk):{s:d.col||0,p:0,h:0});scene.add(o.av);if(!o.lb){o.lb=document.createElement("div");o.lb.className="nl";$("lbls").appendChild(o.lb)}}
   o.lb.textContent=o.n+" · nv "+(o.lvl||1);setTool(o.av,o.tool==null?-1:o.tool);if(o.lastAn!==o.an){if(o.lastAn!=null)o.act=1;o.lastAn=o.an}
   if(o.slot!=null&&o.slot>=0&&o.slot!==mySlot&&o.fk&&(!views[o.slot]||views[o.slot].fk!==o.fk)){if(views[o.slot])dropView(o.slot);const v=views[o.slot]={slot:o.slot,fk:o.fk,farm:null,own:false,oid:id};
     v.ref=R("farms/"+o.fk);v.cb=v.ref.on("value",s=>{const f=normFarm(s.val());if(!f)return;v.farm=f;if(!v.built)makeView(v);else{needRebuild=true;structs(v)}setSlotSign(v.slot,"🌱 "+(f.n||o.n),"#9bd85a")})}}
@@ -905,6 +927,12 @@ function makeView(v){if(!bedMat)bedMat=mat("bed",genPBR("soil",Q>=2?512:256,T_SO
   const geo=merge(L);v.bed=new THREE.Mesh(geo,bedMat);v.bed.receiveShadow=Q>0;scene.add(v.bed);v.vpc=geo.attributes.position.count/100;v.built=true;
   if(v.own)setSlotSign(v.slot,"🏡 "+me.n,"#f2c14b");structs(v);bedColors(v);needRebuild=true}
 function bedColors(v){if(!v.bed||!v.farm)return;const B=BIO[me.bio],c=v.bed.geometry.attributes.color,a=c.array,n=v.vpc,f=v.farm;
+  if(v.bSize!==f.size){v.bSize=f.size;const pa=v.bed.geometry.attributes.position;if(!v.baseY)v.baseY=Float32Array.from(pa.array);
+    for(let i=0;i<100;i++){const un=unlocked(f.size,i);for(let k=0;k<n;k++){const j=(i*n+k)*3+1;pa.array[j]=un?v.baseY[j]:v.baseY[j]-.3}}pa.needsUpdate=true;v.bed.geometry.computeBoundingSphere();
+    if(v.rope)scene.remove(v.rope);const p=slotPos(v.slot),h=f.size*CS/2+.1,pts=[[-h,-h],[h,-h],[h,h],[-h,h],[-h,-h]].map(([x,z])=>new THREE.Vector3(p.x+x,.35,p.z+z));
+    const g=new THREE.Group();g.add(new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts),new THREE.LineBasicMaterial({color:v.own?0xf2c14b:0xd8d0b0})));
+    for(let t=-h;t<=h+.01;t+=CS){for(const [x,z] of [[t,-h],[t,h],[-h,t],[h,t]]){const st=new THREE.Mesh(new THREE.CylinderGeometry(.04,.04,.5,5),mat("v_wood"));st.position.set(p.x+x,.25,p.z+z);g.add(st)}}
+    v.rope=g;scene.add(g)}
   for(let i=0;i<100;i++){const C=f.c[i],un=unlocked(f.size,i);let r,g,b;if(!un){r=B.grass[0]/255*.8;g=B.grass[1]/255*.8;b=B.grass[2]/255*.8}else{const t=clamp(C.v/100,0,1),w=1-clamp(C.a/100,0,1)*.38;
       r=lerp(B.soilP[0],B.soilR[0],t)/255*w;g=lerp(B.soilP[1],B.soilR[1],t)/255*w;b=lerp(B.soilP[2],B.soilR[2],t)/255*w;if(C.f){r*=.4;g*=.35;b*=.3}}
     for(let k=0;k<n;k++){const j=(i*n+k)*3;a[j]=r;a[j+1]=g;a[j+2]=b}}c.needsUpdate=true}
@@ -959,27 +987,27 @@ function lesson(id,force){const C=CONC[id];if(!C)return;if(!F.enc.co[id]){F.enc.
   const t=performance.now();if(force||(t-(tipCD[id]||0)>180000&&Math.random()<.35)){tipCD[id]=t;tip(C.ico,C.n,C.t,6000)}}
 function ach(id){if(F.ach[id])return;F.ach[id]=1;const A=CONQ[id];toast("🏆 Conquista: "+A.ico+" "+A.n);rewardFloat(30,20,null,"🏆");snd.level();feed(me.n+" conquistou: "+A.n)}
 function ensureMissions(){const act=new Set(F.mis.map(m=>m.id));let guard=0;while(F.mis.length<3&&guard++<50){const M=MIS[Math.floor(Math.random()*MIS.length)];if(act.has(M.id))continue;if(M.id==="mutirao"&&F.lvl<2)continue;act.add(M.id);const k=1+Math.floor((F.lvl-1)*.35);F.mis.push({id:M.id,n:M.chk?M.n+Math.floor((F.lvl-1)*.6):M.n*k,p:0,r:[M.r[0]*k,M.r[1]*k]})}}
-function ev(id,amt){amt=amt||1;if(F.tut<TUT.length&&TUT[F.tut].ev===id){F.tp+=amt;if(F.tp>=TUT[F.tut].n)advTut()}
+function ev(id,amt){amt=amt||1;goalEv(id,amt);if(F.tut<TUT.length&&TUT[F.tut].ev===id){F.tp+=amt;if(F.tp>=TUT[F.tut].n)advTut()}
   for(const m of F.mis.slice()){const M=MIS.find(x=>x.id===m.id);if(!M||M.chk||m.id!==id)continue;m.p+=amt;if(m.p>=m.n)doneMis(m)}updMis();save()}
 function chkMis(){const s=farmStats(F);let cob=0;for(let i=0;i<100;i++)if(unlocked(F.size,i)&&F.c[i].k>50)cob++;
   for(const m of F.mis.slice()){if(m.id==="cobrir"){m.p=cob;if(m.p>=m.n)doneMis(m)}if(m.id==="especies"){m.p=s.nsp;if(m.p>=m.n)doneMis(m)}}
   if(s.nsp>=10)ach("especies10");if(s.emer>=1)ach("floresta");for(let i=0;i<100;i++)if(unlocked(F.size,i)&&F.c[i].v>=80){ach("solo");break}updMis()}
-function doneMis(m){F.mis=F.mis.filter(x=>x!==m);const M=MIS.find(x=>x.id===m.id);toast("✅ Missão cumprida: "+M.t.replace("{n}",m.n));rewardFloat(m.r[1],m.r[0],null,"🎯");snd.coin();ensureMissions();updMis()}
+function doneMis(m){F.st.misDone=(F.st.misDone||0)+1;F.mis=F.mis.filter(x=>x!==m);const M=MIS.find(x=>x.id===m.id);toast("✅ Missão cumprida: "+M.t.replace("{n}",m.n));rewardFloat(m.r[1],m.r[0],null,"🎯");snd.coin();ensureMissions();updMis()}
 function advTut(){const T=TUT[F.tut];F.tut++;F.tp=0;rewardFloat(25,15,null,"👴🏽");if(F.tut<TUT.length){setTimeout(()=>tip("👴🏽","Seu Zé:",T.z.replace(/<[^>]+>/g,""),11000),600)}else{tip("👴🏽","Seu Zé:",T.z.replace(/<[^>]+>/g,""),11000);ensureMissions()}updMis()}
 
 /* ---------- ações nos canteiros ---------- */
 function targetInfo(){const tc=targetCell();if(!tc)return null;const v=views[tc.slot];return {tc,v,own:tc.slot===mySlot,c:v&&v.farm?v.farm.c[tc.ci]:null,un:v&&v.farm?unlocked(v.farm.size,tc.ci):false}}
 function doAction(){if(!F)return;const T=targetInfo();P.act=.001;P.an++;snd.swish();if(!T){toast("Chegue perto de um canteiro");return}
   const {tc,v,own,c,un}=T,pos=new THREE.Vector3(cellXZ(tc.slot,tc.ci).x,1,cellXZ(tc.slot,tc.ci).z),H=Math.floor(gameHours());
-  if(!v||!v.farm){toast("Lote livre: ninguém mora aqui ainda");return}
-  if(!un){toast(own?"Esse canteiro ainda não é seu: amplie o sítio na feira 📐":"Canteiro fora do sítio do vizinho");return}
+  if(!v||!v.farm){toast("Esse lote está livre. Seu sítio é o da placa amarela: toque em 🏡 para ir até ele");return}
+  if(!un){toast(own?"Fora da área cercada pela corda amarela. Para liberar: Feira 🧺 → Melhorias → Ampliar o sítio (nível 3)":"Canteiro fora do sítio do vizinho");return}
   if(!own)return helpAction(T,pos);
   const tool=P.tool;
   if(tool===0){// colher
     if(c.f){toast("🔥 Fogo! Use o regador 💧 para apagar!");return}
     let pst=null;for(const k in c.p)if(c.p[k].q){pst=c.p[k];break}
     if(pst){pst.q=0;touch(tc.ci);burst(pos,0x6a8a3a,10);rewardFloat(6,0,pos,"🐛");lesson("pragas");return}
-    let got=0,ico="";for(const k of Object.keys(c.p)){const p=c.p[k],sp=SP[p.s];if(!p.r||!sp.prod)continue;const q=Math.round(sp.q*(F.up.colmeia&&sp.flor?1.25:1));F.inv[sp.prod]=(F.inv[sp.prod]||0)+q;got+=q;ico=PROD[sp.prod].ico;p.r=0;p.c=0;
+    let got=0,ico="";for(const k of Object.keys(c.p)){const p=c.p[k],sp=SP[p.s];if(!p.r||!sp.prod)continue;const q=Math.round(sp.q*(F.up.colmeia&&sp.flor?1.25:1));F.inv[sp.prod]=(F.inv[sp.prod]||0)+q;crioulaSeed(sp);got+=q;ico=PROD[sp.prod].ico;p.r=0;p.c=0;
       if(sp.cyc===0){delete c.p[k];c.k=Math.min(100,c.k+25);lesson(F.enc.co.cobertura?"sucessao":"cobertura")}}
     if(got){touch(tc.ci);burst(pos,0xf2c14b,12,{up:3});snd.pop();rewardFloat(4*got,0,pos,"+"+got+" "+ico);F.st.colh=(F.st.colh||0)+got;ev("colher",got);ach("colheita1");return}
     let any=Object.keys(c.p).length;toast(any?"Ainda não está maduro: espere crescer 🌱":"Nada para colher aqui");return}
@@ -1012,11 +1040,11 @@ function helpAction(T,pos){const {tc,v,c}=T,tool=P.tool;let kind=null,txt="";
     cur.u=Date.now();return cur},(e,ok)=>{if(!ok)return;const xp=kind==="fogo"?20:8;R("farms/"+v.fk+"/help").push({n:me.n,a:txt,xp,ts:Date.now()});rewardFloat(xp*2,0,pos,"🤝");F.st.mut=(F.st.mut||0)+1;ev("mutirao");ach("mutirao");lesson("mutirao");
       burst(pos,kind==="regar"||kind==="fogo"?0x6ab8f0:0xc8b070,14);(kind==="regar"||kind==="fogo"?snd.water:snd.cut)()});updHUD()}
 function plantHere(ci,id){const c=F.c[ci],sp=SP[id],price=seedPrice(sp);if(c.p[sp.st]){toast("Esse estrato já está ocupado neste canteiro");return}
-  if((F.sem[id]||0)>0)F.sem[id]--;else{if(F.coins<price){toast("Moedas insuficientes 💰");return}F.coins-=price}
-  const others_=Object.keys(c.p).length;c.p[sp.st]={s:id,t:0,h:100,r:0,c:0,q:0,pd:-99};touch(ci);closeOv();
+  let cr=0;if((F.sem[id]||0)>0){F.sem[id]--;cr=F.cri&&F.cri[id]?1:0}else{if(F.coins<price){toast("Moedas insuficientes 💰");return}F.coins-=price}
+  const others_=Object.keys(c.p).length;c.p[sp.st]={s:id,t:0,h:100,r:0,c:0,q:0,pd:-99,cr};touch(ci);closeOv();
   const {x,z}=cellXZ(mySlot,ci),pos=new THREE.Vector3(x,1,z);burst(pos.clone().setY(.2),0x6a4a2a,12,{up:1.5});snd.plant();rewardFloat(5,0,pos,sp.ico);F.st.plant=(F.st.plant||0)+1;ev("plantar");
   if(others_>0){rewardFloat(10,0,pos.clone().setY(2),"Consórcio!");ev("consorcio");lesson("estratos",!F.enc.co.estratos)}
-  if(sp.bio&&sp.st===2)ev("adubadeira");if(sp.nf)lesson("nitrogenio");if(c.g>40){toast("Plantou no meio do capim: vai crescer devagar. Roce com o facão 🔪!");lesson("capim")}
+  if(sp.bio&&sp.st===2)ev("adubadeira");if(sp.st>=2)ev("arvore");if(cr)lesson("crioulas");if(sp.nf)lesson("nitrogenio");if(c.g>40){toast("Plantou no meio do capim: vai crescer devagar. Roce com o facão 🔪!");lesson("capim")}
   if(!F.enc.sp[id]){F.enc.sp[id]=1;tip(sp.ico,"📖 Nova planta: "+sp.n,sp.t,8000);rewardFloat(10,0,null,"📖")}
   if(sp.st===3)setTimeout(()=>lesson("sucessao"),2500);if(sp.st>=2&&Object.keys(F.enc.sp).length>=4)setTimeout(()=>lesson("carbono"),5000);updHUD()}
 const seedPrice=sp=>Math.max(1,Math.round(sp.pr*(F.up.viveiro?.7:1)));
@@ -1038,7 +1066,7 @@ function floatTick(dt){const V=new THREE.Vector3();for(let i=FLO.length-1;i>=0;i
 function updHUD(){if(!F)return;$("sCoin").textContent=Math.floor(F.coins);$("sLvT").textContent="Nv "+F.lvl+" · "+TITLES[Math.min(F.lvl-1,TITLES.length-1)];const need=xpNeed(F.lvl);$("sXp").textContent=Math.floor(F.xp)+"/"+need;$("sXpB").style.width=clamp(F.xp/need*100,0,100)+"%";
   const wm=F.up.regador?25:10;$("wN").textContent=F.w+"/"+wm;$("wB").style.width=F.w/wm*100+"%";if(MOB)$("water").style.display="block"}
 function updMis(){if(!F)return;const T=TUT[F.tut];$("tutT").style.display=T?"block":"none";if(T)$("tutT").innerHTML="👴🏽 "+T.t+(T.n>1?" <b>("+F.tp+"/"+T.n+")</b>":"");
-  $("misL").innerHTML=F.mis.map(m=>{const M=MIS.find(x=>x.id===m.id);return '<div class="m"><span>'+M.t.replace("{n}",m.n)+" ("+Math.min(m.p,m.n)+"/"+m.n+')</span><b>+'+m.r[0]+"💰</b></div>"}).join("")}
+  $("misL").innerHTML=F.mis.map(m=>{const M=MIS.find(x=>x.id===m.id);return '<div class="m"><span>'+M.t.replace("{n}",m.n)+" ("+Math.min(m.p,m.n)+"/"+m.n+')</span><b>+'+m.r[0]+"💰</b></div>"}).join("")+misExtra()}
 $("misH").onclick=()=>{$("mis").classList.toggle("min");$("misT").textContent=$("mis").classList.contains("min")?"▸":"▾"};if(MOB&&innerHeight<420)$("mis").classList.add("min");
 let lastMin=-1,cellT=0;
 function hudTick(t){const H=gameHours(),hr=H%24,mn=Math.floor((hr%1)*60/10)*10;const key=Math.floor(H*6);if(key!==lastMin){lastMin=key;const W=weatherAt(Math.floor(H),me.bio),S=seasonInfo(me.bio,H);
@@ -1062,11 +1090,11 @@ function openSeeds(ci){const c=F.c[ci];openOv("seed");const occ=Object.keys(c.p)
   $("seedG").innerHTML=list.map(sp=>{const lock=F.lvl<sp.lv,occd=!!c.p[sp.st],have=F.sem[sp.id]||0,pr=seedPrice(sp),can=!lock&&!occd&&(have>0||F.coins>=pr);
     const wat=sp.w<.2?"aguenta seca":sp.w<.55?"água média":"gosta de água";
     return `<div class="card ${lock?"lock":""}"><div class="h"><i>${sp.ico}</i><div><b>${sp.n}</b><div class="tag">${EST_I[sp.st]} estrato ${EST[sp.st]}</div></div></div>
-      <div>⏳ adulta em ${sp.d} dias${sp.prod?" · colhe "+(sp.cyc?"a cada "+sp.cyc+"d":"1 vez"):""}<br>💧 ${wat}${sp.sh>.6?" · 🌳 gosta de sombra":""}${sp.nf?" · ⚗️ aduba":""}${sp.bio?" · ✂️ podar":""}</div>
+      <div>⏳ adulta em ${sp.d} dias${sp.prod?" · colhe "+(sp.cyc?"a cada "+sp.cyc+"d":"1 vez"):""}<br>💧 ${wat}${sp.sh>.6?" · 🌳 gosta de sombra":""}${sp.nf?" · ⚗️ aduba":""}${sp.bio?" · ✂️ podar":""}${F.cri&&F.cri[sp.id]&&(F.sem[sp.id]||0)>0?" · 🌾 crioula +12%":""}</div>
       <button data-sp="${sp.id}" ${can?"":"disabled"}>${lock?"🔒 Nível "+sp.lv:occd?"Estrato ocupado":have>0?"Plantar ("+have+" sem.)":"Plantar · "+pr+" 💰"}</button></div>`}).join("");
   $("seedG").querySelectorAll("button[data-sp]").forEach(b=>b.onclick=()=>plantHere(ci,b.dataset.sp))}
 let shopTab="vender",quizQ=null;
-function openShop(tab){shopTab=tab||shopTab;openOv("shop");const tabs=[["vender","🧺 Vender"],["sementes","🌱 Sementes e mudas"],["melhorias","🛠️ Melhorias"],["quiz","❓ Quiz"]];
+function openShop(tab){shopTab=tab||shopTab;openOv("shop");const tabs=[["vender","🧺 Vender"],["jogadores","🤝 Entre jogadores"],["sementes","🌱 Sementes e mudas"],["melhorias","🛠️ Melhorias"],["quiz","❓ Quiz"]];
   $("shopT").innerHTML=tabs.map(([k,n])=>`<button data-t="${k}" aria-pressed="${k===shopTab}">${n}</button>`).join("");$("shopT").querySelectorAll("button").forEach(b=>b.onclick=()=>openShop(b.dataset.t));
   const day=Math.floor(gameHours()/24),price=id=>Math.max(1,Math.round(PROD[id].p*(.85+.3*hash1(day,strHash(id)))));let h="";
   if(shopTab==="vender"){const items=Object.keys(F.inv).filter(k=>F.inv[k]>0&&PROD[k]);
@@ -1075,14 +1103,16 @@ function openShop(tab){shopTab=tab||shopTab;openOv("shop");const tabs=[["vender"
     h+=items.length?'<div class="grid">'+items.map(k=>{const p=price(k),q=F.inv[k];return `<div class="card"><div class="h"><i>${PROD[k].ico}</i><div><b>${PROD[k].n}</b><div class="tag">Você tem ${q}</div></div></div><div>Preço hoje: <b>${p} 💰</b></div><div class="row" style="margin:0"><button data-s1="${k}">Vender 1</button><button data-sa="${k}">Tudo · ${p*q}</button></div></div>`}).join("")+"</div>":"<p style='color:var(--mut)'>Nada para vender ainda. Colha com a cesta 🧺 quando aparecer ✨ nas plantas.</p>"}
   else if(shopTab==="sementes"){h+='<div class="grid">'+Object.values(SP).filter(spOk).sort((a,b)=>a.lv-b.lv||a.st-b.st).map(sp=>{const lock=F.lvl<sp.lv,pr=seedPrice(sp);return `<div class="card ${lock?"lock":""}"><div class="h"><i>${sp.ico}</i><div><b>${sp.n}</b><div class="tag">${EST_I[sp.st]} ${EST[sp.st]} · você tem ${F.sem[sp.id]||0}</div></div></div><div style="font-size:11px">${sp.t}</div><button data-b="${sp.id}" ${lock||F.coins<pr?"disabled":""}>${lock?"🔒 Nível "+sp.lv:"Comprar · "+pr+" 💰"}</button></div>`}).join("")+"</div>"}
   else if(shopTab==="melhorias"){h+='<div class="grid">'+Object.keys(UPG).map(k=>{const U=UPG[k],has=F.up[k],lock=F.lvl<U.lv||(U.req&&!F.up[U.req]);return `<div class="card ${lock?"lock":""}"><div class="h"><i>${U.ico}</i><div><b>${U.n}</b><div class="tag">${has?"✅ já tem":"Nível "+U.lv}</div></div></div><div>${U.t}</div><button data-u="${k}" ${has||lock||F.coins<U.p?"disabled":""}>${has?"Comprado":lock?"🔒 Nível "+U.lv:"Comprar · "+U.p+" 💰"}</button></div>`}).join("")+"</div>"}
+  else if(shopTab==="jogadores")h+=marketHTML();
   else{const H=Math.floor(gameHours());if(F.qz===H&&!quizQ){h+="<p>Você já respondeu nesta hora. Volte daqui a pouco (1 hora de jogo) para outra pergunta! 🎓</p><p style='color:var(--mut)'>Acertos: "+(F.st.quiz||0)+"</p>"}
-    else{if(!quizQ){const q=QUIZ[Math.floor(Math.random()*QUIZ.length)],o=q[1].map((t,i)=>({t,ok:i===q[2]})).sort(()=>Math.random()-.5);quizQ={q:q[0],o}}
+    else{if(!quizQ){const QP=quizPool(),q=QP[Math.floor(Math.random()*QP.length)],o=q[1].map((t,i)=>({t,ok:i===q[2]})).sort(()=>Math.random()-.5);quizQ={q:q[0],o}}
       h+=`<div class="qz"><p style="font-weight:800;font-size:15px">❓ ${quizQ.q}</p>${quizQ.o.map((o,i)=>`<button data-q="${i}">${o.t}</button>`).join("")}<p style="color:var(--mut);font-size:12px">Acertou: +15 💰 +10 ⭐ · Acertos: ${F.st.quiz||0}</p></div>`}}
   $("shopB").innerHTML=h;const B=$("shopB");
   B.querySelectorAll("[data-s1],[data-sa]").forEach(b=>b.onclick=()=>{const k=b.dataset.s1||b.dataset.sa,q=b.dataset.s1?1:F.inv[k],v=price(k)*q;F.inv[k]-=q;F.coins+=v;F.st.vend=(F.st.vend||0)+v;F.st.ganho=(F.st.ganho||0)+v;snd.coin();floatText("+"+v+" 💰",null,"#f2c14b");ev("vender",v);if(F.st.ganho>=1000)ach("rico");rewardFloat(Math.ceil(v/10),0,null,"");openShop()});
   B.querySelectorAll("[data-b]").forEach(b=>b.onclick=()=>{const sp=SP[b.dataset.b],pr=seedPrice(sp);if(F.coins<pr)return;F.coins-=pr;F.sem[sp.id]=(F.sem[sp.id]||0)+1;snd.coin();updHUD();save();openShop()});
   B.querySelectorAll("[data-u]").forEach(b=>b.onclick=()=>{const k=b.dataset.u,U=UPG[k];if(F.coins<U.p)return;F.coins-=U.p;F.up[k]=1;if(k==="amplia1")F.size=Math.max(F.size,8);if(k==="amplia2")F.size=10;if(k==="regador")F.w=25;
     snd.level();toast(U.ico+" "+U.n+" comprado!");rewardFloat(20,0,null,U.ico);dirtyAll();needRebuild=true;if(views[mySlot])structs(views[mySlot]);if(k==="colmeia")lesson("polinizacao");save();openShop()});
+  if(shopTab==="jogadores")marketBind(B);
   const mf=$("mkFar");if(mf)mf.onclick=()=>{F.inv.mandioca-=3;F.inv.farinha=(F.inv.farinha||0)+1;snd.pop();rewardFloat(5,0,null,"🥣");openShop()};
   B.querySelectorAll("[data-q]").forEach(b=>b.onclick=()=>{const o=quizQ.o[+b.dataset.q];B.querySelectorAll("[data-q]").forEach((x,i)=>{x.disabled=true;if(quizQ.o[i].ok)x.classList.add("ok")});if(o.ok){F.st.quiz=(F.st.quiz||0)+1;rewardFloat(10,15,null,"🎓");snd.coin();ev("quiz");if(F.st.quiz>=10)ach("quiz")}else{b.classList.add("no");snd.err()}
     F.qz=Math.floor(gameHours());quizQ=null;save();setTimeout(()=>{if(shopTab==="quiz"&&$("shop").style.display==="flex")openShop("quiz")},1800)});
@@ -1094,7 +1124,7 @@ function openEnc(tab){encTab=tab||encTab;openOv("enc");const tabs=[["plantas","�
   else if(encTab==="animais")h=BIO[me.bio].fauna.map(a=>F.enc.fa[a.id]?`<div class="card"><div class="h"><i>${a.ico}</i><b>${a.n}</b></div><div>${a.t}</div></div>`:`<div class="card lock"><div class="h"><i>❔</i><b>???</b></div><div>${{flor:"Precisa de plantas com flores",sc:"Precisa de um sítio mais diverso",alto:"Precisa de árvores altas adultas"}[a.req.replace(/\d+/,"")]}</div></div>`).join("");
   else h=Object.keys(CONC).map(k=>{const C=CONC[k];return F.enc.co[k]?`<div class="card"><div class="h"><i>${C.ico}</i><b>${C.n}</b></div><div>${C.t}</div></div>`:`<div class="card lock"><div class="h"><i>❔</i><b>???</b></div><div>Descubra jogando.</div></div>`}).join("");
   $("encG").innerHTML=h}
-function openPan(){openOv("pan");const s=farmStats(F),ini=F.st.ini||{},fa=faunaOf(F);
+function panMain(){const s=farmStats(F),ini=F.st.ini||{},fa=faunaOf(F);
   const d=(a,b,inv)=>b==null?"":(a>b?(inv?"🔻":"🔺"):a<b?(inv?"🔺":"🔻"):"")+" antes "+Math.round(b);
   $("panB").innerHTML=`<div style="margin-bottom:10px"><b style="font-size:16px">${esc(F.n)} · Nível ${F.lvl} – ${TITLES[Math.min(F.lvl-1,TITLES.length-1)]}</b><div style="color:var(--mut);font-size:12px">${BIO[me.bio].ico} ${BIO[me.bio].n} · ${s.n} canteiros · ${seasonInfo(me.bio,gameHours()).n}</div></div>
   <div class="ind"><div><small>🪱 Vida do solo</small><b>${Math.round(s.vida)}%</b><small>${d(s.vida,ini.vida)}</small></div><div><small>💧 Umidade do solo</small><b>${Math.round(s.agua)}%</b><small>${d(s.agua,ini.agua)}</small></div>
@@ -1105,7 +1135,7 @@ function openPan(){openOv("pan");const s=farmStats(F),ini=F.st.ini||{},fa=faunaO
   <p style="font-size:12px;color:var(--mut)">💡 Temperatura do solo cai com cobertura e sombra. Vida do solo sobe com palhada, leguminosas e diversidade.</p>`}
 function openPrev(){openOv("prev");const H=gameHours(),S=seasonInfo(me.bio,H),fc=forecast(me.bio,Math.floor(H)),nm=["Hoje","Amanhã","Depois"];
   let tips=[];if(!S.rainy)tips.push("☀️ Estamos na seca: mantenha o solo coberto com palhada e regue as mudas novas.");if(S.rainy&&S.left<=2)tips.push("⚠️ A seca começa em "+S.left+" dia(s)! Cubra o solo e "+(F.up.cisterna?"aproveite para encher a cisterna.":"pense em comprar uma cisterna."));
-  if(!S.rainy&&S.left<=2)tips.push("🌧️ As chuvas voltam em "+S.left+" dia(s): ótimo momento para planejar o plantio.");if(fc.some(f=>f.heat))tips.push("🔥 Onda de calor prevista: roce o capim seco para evitar incêndio.");if(fc.some(f=>f.veran))tips.push("🌤️ Veranico: alguns dias sem chuva mesmo na estação chuvosa.");if(fc[0].st)tips.push("⛈️ Tempestade hoje: os galhos que caem viram adubo, mas cuidado com mudas novas.");
+  if(!S.rainy&&S.left<=2)tips.push("🌧️ As chuvas voltam em "+S.left+" dia(s): ótimo momento para planejar o plantio.");if(fc.some(f=>f.frost))tips.push("❄️ Risco de GEADA de madrugada: plantas sensíveis e mudas sem sombra podem queimar.");if(fc.some(f=>f.flood))tips.push("🌊 Rio cheio: ENCHENTE prevista. Plantas de várzea (açaí, buriti) aguentam melhor.");if(fc.some(f=>f.gale))tips.push("🌬️ VENTANIA com a tempestade: árvores jovens podem quebrar galhos.");if(fc.some(f=>f.heat))tips.push("🔥 Onda de calor prevista: roce o capim seco para evitar incêndio.");if(fc.some(f=>f.veran))tips.push("🌤️ Veranico: alguns dias sem chuva mesmo na estação chuvosa.");if(fc[0].st)tips.push("⛈️ Tempestade hoje: os galhos que caem viram adubo, mas cuidado com mudas novas.");
   $("prevB").innerHTML=`<p style="margin:0 0 8px">📻 <i>"Bom dia, comunidade! Aqui é a Rádio do Sítio com a previsão para a ${BIO[me.bio].n}…"</i></p><div style="margin-bottom:8px;font-weight:700">${S.n} · faltam ${S.left} dia(s)</div>
   <div class="fc">${fc.map((f,i)=>`<div><b>${nm[i]}</b><i>${f.ico}</i>${Math.round(f.tmin)}° – ${Math.round(f.tmax)}°<br><small>${f.rh?f.rh+"h de chuva":"sem chuva"}</small></div>`).join("")}</div>
   <div style="margin-top:10px;font-size:13px;line-height:1.5">${tips.join("<br>")||"Tempo bom para trabalhar no sítio!"}</div>`;lesson("agua")}
@@ -1118,7 +1148,7 @@ function selTool(t){P.tool=t;document.querySelectorAll(".tb").forEach(b=>b.setAt
 document.querySelectorAll(".tb").forEach(b=>b.addEventListener("pointerdown",e=>{e.preventDefault();e.stopPropagation();audioOn();selTool(+b.dataset.tool)}));
 addEventListener("keydown",e=>{if(!running||document.activeElement.tagName==="INPUT")return;K[e.code]=true;
   if(e.code==="Escape"){if(ovOpen())closeOv();else openOv("menu");return}if(ovOpen())return;
-  if(/^Digit[1-4]$/.test(e.code))selTool(+e.code.slice(5)-1);else if(e.code==="Space"||e.code==="Enter"){e.preventDefault();doAction()}else if(e.code==="KeyF")interact();else if(e.code==="KeyP")openPan();else if(e.code==="KeyL")openEnc();else if(e.code==="KeyR")openPrev()});
+  if(/^Digit[1-4]$/.test(e.code))selTool(+e.code.slice(5)-1);else if(e.code==="Space"||e.code==="Enter"){e.preventDefault();doAction()}else if(e.code==="KeyF")interact();else if(e.code==="KeyP")openPan();else if(e.code==="KeyL")openEnc();else if(e.code==="KeyR")openPrev();else if(e.code==="KeyH")goHome();else if(e.code==="KeyC")$("bChat").onclick()});
 addEventListener("keyup",e=>{K[e.code]=false});
 const cv=$("cv");
 cv.addEventListener("pointerdown",e=>{audioOn();if(MOB)return;drag={x:e.clientX,y:e.clientY,t:performance.now(),moved:0};cv.setPointerCapture(e.pointerId)});
@@ -1136,7 +1166,8 @@ $("mzR").addEventListener("pointermove",e=>{const L=looks[e.pointerId];if(!L)ret
 ["pointerup","pointercancel"].forEach(ev_=>$("mzR").addEventListener(ev_,e=>{const L=looks[e.pointerId];delete looks[e.pointerId];if(L&&L.m<8&&performance.now()-L.t<300&&ev_==="pointerup")doAction()}));
 const tapBtn=(id,fn)=>$(id).addEventListener("pointerdown",e=>{e.preventDefault();e.stopPropagation();audioOn();$(id).classList.add("prs");fn();setTimeout(()=>$(id).classList.remove("prs"),150)});
 tapBtn("bAct",doAction);tapBtn("bTalk",interact);
-$("bPan").onclick=openPan;$("bEnc").onclick=()=>openEnc();$("bPrev").onclick=openPrev;$("bMenu").onclick=()=>openOv("menu");
+$("bPan").onclick=()=>openPan();$("bChat").onclick=()=>{const c=$("chat");c.style.display=c.style.display==="block"?"none":"block";$("bChat").classList.remove("new");renderChat()};$("bLook").onclick=openLook;$("bProf").onclick=openProf;$("chatG").onclick=openGift;
+$("chatS").onclick=()=>sendChat($("chatI").value);$("chatI").addEventListener("keydown",e=>{e.stopPropagation();if(e.key==="Enter")sendChat($("chatI").value);if(e.key==="Escape")$("chatI").blur()});$("bHome").onclick=goHome;$("bEnc").onclick=()=>openEnc();$("bPrev").onclick=openPrev;$("bMenu").onclick=()=>openOv("menu");
 $("sens").value=sens;$("sensV").textContent=sens.toFixed(1);$("sens").oninput=()=>{sens=+$("sens").value;$("sensV").textContent=sens.toFixed(1);LS.set("agro_sens",sens)};
 $("mFull").onclick=async()=>{try{await document.documentElement.requestFullscreen({navigationUI:"hide"});await screen.orientation.lock("landscape")}catch(e){}};
 $("mSnd").onclick=()=>{soundOn=!soundOn;LS.set("agro_snd",soundOn);$("mSnd").textContent="🔊 Som: "+(soundOn?"ligado":"desligado");if(AMB.g)AMB.g.gain.value=soundOn?1:0};$("mSnd").textContent="🔊 Som: "+(soundOn?"ligado":"desligado");
@@ -1150,12 +1181,24 @@ function targetCell(){let x,z;if(!MOB&&mouse.on&&performance.now()-mouse.t<4000&
 function hlTick(){if(!hl){const g=new THREE.EdgesGeometry(new THREE.PlaneGeometry(CS-.25,CS-.25).rotateX(-Math.PI/2));hl=new THREE.LineSegments(g,new THREE.LineBasicMaterial({color:0x9bd85a,transparent:true,opacity:.9,depthTest:false}));hl.renderOrder=5;scene.add(hl)}
   const T=targetInfo();if(!T||!T.v){hl.visible=false;return}const {x,z}=cellXZ(T.tc.slot,T.tc.ci);hl.visible=true;hl.position.set(x,.14,z);hl.material.color.setHex(!T.un?0xff6a55:T.own?0x9bd85a:0xf2c14b);hl.material.opacity=.6+Math.sin(performance.now()/200)*.3}
 let iaKind=null;
+/* ---------- guia até o sítio ---------- */
+let gArrow=null,gBeam=null;
+function guideTick(t){const home=slotPos(mySlot),inHome=Math.abs(P.x-home.x)<HALF+1&&Math.abs(P.z-home.z)<HALF+1;let tg=null,lbl="";
+  if(F.tut===0){tg=VILLAGE.ze;lbl="👴🏽 Seu Zé"}else if(TUT[F.tut]&&TUT[F.tut].ev==="vender"&&Object.values(F.inv).some(n=>n>0)){tg=VILLAGE.feira[1];lbl="🧺 Feira"}else if(!inHome){tg=home;lbl="🏡 Seu sítio"}
+  if(!gArrow){const s=new THREE.Shape();s.moveTo(0,-.9);s.lineTo(.45,-.1);s.lineTo(.16,-.1);s.lineTo(.16,.6);s.lineTo(-.16,.6);s.lineTo(-.16,-.1);s.lineTo(-.45,-.1);s.closePath();const g=new THREE.ShapeGeometry(s);g.rotateX(-Math.PI/2);
+    gArrow=new THREE.Mesh(g,new THREE.MeshBasicMaterial({color:0xffcc33,transparent:true,opacity:.9,depthTest:false,toneMapped:false}));gArrow.renderOrder=9;scene.add(gArrow);
+    gBeam=new THREE.Mesh(new THREE.CylinderGeometry(.6,.6,60,16,1,true),new THREE.MeshBasicMaterial({color:0xffd24a,transparent:true,opacity:.22,blending:THREE.AdditiveBlending,depthWrite:false,side:THREE.DoubleSide,toneMapped:false,fog:false}));gBeam.position.set(home.x,30,home.z);scene.add(gBeam)}
+  gBeam.visible=!inHome;gBeam.material.opacity=.16+Math.sin(t/400)*.06;
+  if(!tg){gArrow.visible=false;$("guide").style.display="none";return}const dx=tg.x-P.x,dz=tg.z-P.z,d=Math.hypot(dx,dz);
+  if(d<4){gArrow.visible=false;$("guide").style.display="none";return}const a=Math.atan2(dx,dz);gArrow.visible=false;gArrow.position.set(P.x+Math.sin(a)*1.6,P.y+.15,P.z+Math.cos(a)*1.6);gArrow.rotation.y=a+Math.PI;gArrow.scale.setScalar(1+Math.sin(t/200)*.08);
+  $("guide").style.display="block";$("guide").textContent=lbl+": "+Math.round(d)+" m"}
+function goHome(){const p=slotPos(mySlot),gd=gateDir(mySlot);const r=F.size*CS/2+.6;P.x=p.x+gd.x*r;P.z=p.z+gd.z*r;P.yw=Math.atan2(gd.x,gd.z);cam.yaw=P.yw;toast("🏡 Você está no seu sítio! Os canteiros de terra escura no meio são seus (os de grama em volta você libera depois).")}
 function interactTick(){const d=(p)=>Math.hypot(P.x-p.x,P.z-p.z);iaKind=null;let txt="";
   if(d(VILLAGE.ze)<3.2){iaKind="ze";txt="💬 Conversar com Seu Zé"}else if(VILLAGE.feira.some(f=>d(f)<4)){iaKind="feira";txt="🧺 Abrir a feira"}else if(d(VILLAGE.radio)<2.6){iaKind="radio";txt="📻 Ouvir a previsão"}
-  else{const v=views[mySlot];if(v&&v.cisPos&&d(v.cisPos)<3&&F.up.cisterna){iaKind="cis";txt="🛢️ Encher regador na cisterna ("+Math.round(F.cis||0)+"%)"}}
+  else{const v=views[mySlot];if(v&&v.cisPos&&d(v.cisPos)<3&&F.up.cisterna){iaKind="cis";txt="🛢️ Encher regador na cisterna ("+Math.round(F.cis||0)+"%)"}else if(v&&v.springPos&&d(v.springPos)<3.2){iaKind="nasc";txt=(F.nasc||0)>20?"💧 Encher regador na nascente ("+Math.round(F.nasc)+"%)":"💧 Nascente fraca ("+Math.round(F.nasc||0)+"%): recupere o solo!"}}
   const wm=F.up.regador?25:10;if(d(VILLAGE.well)<2.8&&F.w<wm){F.w=wm;updHUD();snd.water();toast("💧 Regador cheio!")}
   $("ia").style.display=txt?"block":"none";$("ia").textContent=(MOB?"":"F: ")+txt;$("bTalk").style.display=txt?"flex":"none"}
-function interact(){if(iaKind==="ze")talkZe();else if(iaKind==="feira"){openShop("vender");lesson("sucessao")}else if(iaKind==="radio")openPrev();else if(iaKind==="cis"){const wm=F.up.regador?25:10,need=wm-F.w,take=Math.min(need,Math.floor((F.cis||0)/2));if(take<=0){toast("Cisterna vazia ou regador cheio");return}F.w+=take;F.cis-=take*2;snd.water();updHUD();save()}}
+function interact(){if(iaKind==="ze")talkZe();else if(iaKind==="feira"){openShop("vender");lesson("sucessao")}else if(iaKind==="radio")openPrev();else if(iaKind==="nasc"){if((F.nasc||0)>20){F.w=F.up.regador?25:10;snd.water();updHUD();toast("💧 Água limpa da nascente!")}else{lesson("nascente",true)}}else if(iaKind==="cis"){const wm=F.up.regador?25:10,need=wm-F.w,take=Math.min(need,Math.floor((F.cis||0)/2));if(take<=0){toast("Cisterna vazia ou regador cheio");return}F.w+=take;F.cis-=take*2;snd.water();updHUD();save()}}
 /* ---------- movimento ---------- */
 function collide(x,z){for(const c of COLL){if(c.r!=null){const dx=x-c.x,dz=z-c.z,d=Math.hypot(dx,dz),r=c.r+.35;if(d<r&&d>0){x=c.x+dx/d*r;z=c.z+dz/d*r}}else if(x>c.x0-.35&&x<c.x1+.35&&z>c.z0-.35&&z<c.z1+.35){const l=x-(c.x0-.35),r=(c.x1+.35)-x,t=z-(c.z0-.35),b=(c.z1+.35)-z,m=Math.min(l,r,t,b);if(m===l)x=c.x0-.35;else if(m===r)x=c.x1+.35;else if(m===t)z=c.z0-.35;else z=c.z1+.35}}return [clamp(x,-80,80),clamp(z,-80,80)]}
 function movePlayer(dt){let ix=0,iz=0;if(!ovOpen()){if(K.KeyW||K.ArrowUp)iz-=1;if(K.KeyS||K.ArrowDown)iz+=1;if(K.KeyA||K.ArrowLeft)ix-=1;if(K.KeyD||K.ArrowRight)ix+=1;if(jx||jy){ix=jx;iz=jy}}
@@ -1197,7 +1240,7 @@ function hourTick(Hi,W){if(lastSeason===null){const S0=seasonInfo(me.bio,Hi);las
   for(const e of evs){if(e.t==="fogo"){toast("🔥 FOGO no seu sítio! Corra com o regador 💧");snd.alarm();feed("Fogo no sítio de "+me.n+"! Ajudem no mutirão!");lesson("fogo",true)}
     else if(e.t==="praga"){toast("🐛 Praga no "+e.s+"! Cate com a cesta 🧺");lesson("pragas")}else if(e.t==="morte"){toast("🥀 Um(a) "+e.s+" morreu"+(F.c[e.i].a<15?" de sede":"")+". Virou palhada para o solo.");lesson("agua")}
     else if(e.t==="mel"){toast("🍯 Suas abelhas produziram mel!")}else if(e.t==="aveComeu"&&Math.random()<.3){toast("🐦 Um pássaro comeu as pragas do seu sítio!");lesson("pragas")}}
-  dirtyAll();needRebuild=true;chkMis();checkFauna();
+  hourTick2(evs);dirtyAll();needRebuild=true;chkMis();checkFauna();
   const S=seasonInfo(me.bio,Hi);if(lastSeason!==null&&lastSeason!==S.rainy){if(S.rainy){if(farmStats(F).nsp>=3)ach("seca");tip("🌧️","As chuvas voltaram!","Hora de plantar e podar as adubadeiras. A floresta vai crescer rápido agora.",8000)}else{tip("☀️","Começou a seca!","Cubra o solo com palhada, regue as mudas e roce o capim para evitar fogo.",9000);lesson("agua")}
     drawNatives(!S.rainy&&BIO[me.bio].nat==="caat")}
   lastSeason=S.rainy;save()}
@@ -1268,14 +1311,192 @@ function loop(t){const dt=Math.min(.05,(t-last)/1000);last=t;
   for(const f of MARK.fire)if(Math.random()<dt*14){smoke(new THREE.Vector3(f.x+(Math.random()-.5)*2,.3,f.z+(Math.random()-.5)*2),{fire:true,size:1.2+Math.random(),grow:.5,life:.5+Math.random()*.3,op:.95,vy:2});if(Math.random()<.4)smoke(new THREE.Vector3(f.x,1.5,f.z),{size:1.6,grow:2.5,life:3,op:.45,col:0x3a3634,vy:2.2,vx:.6})}
   if(MARK.fire.length&&Math.random()<dt*3)nz(1800+Math.random()*2000,.05,.06,"highpass");
   if(dayF>.4&&t>birdT){birdT=t+3000+Math.random()*9000/(1+faunaOf(F).length);if(faunaOf(F).length||Math.random()<.3)snd.bird()}
-  othersTick(dt);animalsTick(dt,t);fxTick(dt,t);hlTick();interactTick();hudTick(t);floatTick(dt);netTick(t);
+  guideTick(t);tick2(dt,t);othersTick(dt);animalsTick(dt,t);fxTick(dt,t);hlTick();interactTick();hudTick(t);floatTick(dt);netTick(t);
   if(composer)composer.render(dt);else{renderer.setRenderTarget(null);renderer.clear();renderer.render(scene,camera)}
   requestAnimationFrame(loop)}
 /* ---------- lobby ---------- */
 $("bios").innerHTML=Object.keys(BIO).map(k=>`<button class="bbtn" data-b="${k}" aria-pressed="${k===me.bio}"><i>${BIO[k].ico}</i><div><b>${BIO[k].n}</b><small>${BIO[k].d}</small></div></button>`).join("");
 $("bios").querySelectorAll("button").forEach(b=>b.onclick=()=>{me.bio=b.dataset.b;$("bios").querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b))});
-$("nome").value=LS.get("agro_nome","");$("sala").value=LS.get("agro_sala","comunidade-1");
+$("nome").value=LS.get("agro_nome","");$("prof").checked=!!LS.get("agro_prof",false);$("sala").value=LS.get("agro_sala","comunidade-1");
 $("go").onclick=()=>{audioOn();$("go").disabled=true;join().catch(e=>{console.error(e);$("lerr").textContent="Erro ao entrar: "+e.message;$("lobby").style.display="flex";$("load").style.display="none";$("go").disabled=false})};
+
+/* =====================================================================
+   NOVIDADES v2: criação, sementes crioulas, nascente, erosão, clima extra,
+   chat, feira entre jogadores, ranking, metas, campanhas, visual, professor
+   ===================================================================== */
+Object.assign(CONC,{
+  erosao:{n:"Erosão",ico:"🌊",t:"Chuva forte em solo pelado arrasta a terra fértil morro abaixo. Palhada e raízes seguram o solo no lugar."},
+  crioulas:{n:"Sementes crioulas",ico:"🌾",t:"Sementes guardadas da própria colheita, ano após ano, se adaptam ao seu clima e solo. São patrimônio dos agricultores e podem ser trocadas entre vizinhos."},
+  nascente:{n:"Floresta produz água",ico:"💧",t:"Com solo vivo e coberto, a chuva infiltra em vez de escorrer, abastece o lençol freático e as nascentes voltam a correr."},
+  integracao:{n:"Integração com animais",ico:"🐔",t:"Galinhas comem insetos e adubam; cabras roçam o capim e deixam esterco. Bem manejados, os animais ajudam a floresta, e a floresta alimenta os animais."},
+  geada:{n:"Geada",ico:"❄️",t:"Em noites muito frias, o orvalho congela nas folhas e queima as plantas sensíveis. A copa das árvores protege as plantas de baixo."},
+  enchente:{n:"Enchente",ico:"🌊",t:"Na cheia dos rios, o solo fica encharcado e as raízes sem ar. Plantas de várzea, como açaí e buriti, aguentam; outras sofrem."},
+  ventania:{n:"Ventania",ico:"🌬️",t:"Ventos fortes quebram galhos de árvores jovens. Os galhos caídos viram adubo, e árvores em grupo se protegem umas às outras."}});
+Object.assign(UPG,{galinheiro:{n:"Galinheiro",ico:"🐔",p:110,lv:3,t:"Galinhas soltas comem insetos (menos pragas), botam ovos e deixam esterco que aduba o solo."},
+  cabras:{n:"Cabras",ico:"🐐",p:170,lv:4,t:"Comem o capim (ou palma, se faltar), dão leite e esterco. Com fome, mordiscam as mudas: maneje bem!"}});
+Object.assign(PROD,{ovos:{n:"Ovos caipira",ico:"🥚",p:7},leite:{n:"Leite de cabra",ico:"🥛",p:10}});
+const QUIZ_B={
+  caatinga:[["O que é a 'caatinga' em tupi?",["Mata branca","Rio seco","Terra vermelha"],0],["Qual planta guarda água nas raquetes?",["Palma forrageira","Ipê","Bananeira"],0],["Por que as árvores da Caatinga perdem as folhas na seca?",["Para perder menos água","Por causa do frio","Porque estão mortas"],0],["Qual ave é símbolo da migração no sertão?",["Asa-branca","Pinguim","Tucano"],0],["A cisterna serve para:",["Guardar a água da chuva","Esquentar a água","Fazer farinha"],0],["O juazeiro é importante porque:",["Fica verde e dá sombra na seca","Só cresce na neve","Não dá frutos"],0]],
+  atlantica:[["Quanto resta aproximadamente da Mata Atlântica original?",["Cerca de 12%","Cerca de 90%","Nada"],0],["O mico-leão-dourado precisa de:",["Floresta contínua e corredores","Deserto","Pastagem"],0],["A palmeira-juçara é ameaçada por:",["Extração do palmito","Excesso de chuva","Formigas"],0],["Por que a Mata Atlântica importa para as cidades?",["Protege nascentes que abastecem milhões de pessoas","Produz petróleo","Esfria o mar"],0],["O café nasceu em que tipo de ambiente?",["Sombra de florestas","Deserto","Neve"],0],["O sabiá-laranjeira ajuda a floresta porque:",["Espalha sementes","Come raízes","Derruba árvores"],0]],
+  amazonia:[["Os 'rios voadores' da Amazônia são:",["Umidade que a floresta lança no ar e vira chuva longe","Rios subterrâneos","Cachoeiras"],0],["O açaí é colhido:",["Subindo na palmeira sem derrubá-la","Cortando a árvore","Com trator"],0],["Quem espalha as sementes da castanheira?",["A cutia","O jacaré","O boto"],0],["O solo da Amazônia é:",["Pobre: a riqueza está na própria floresta","Sempre muito fértil sem floresta","Feito de areia de praia"],0],["Várzea é:",["Área que alaga na cheia dos rios","Topo de montanha","Deserto de pedra"],0],["Por que desmatar a Amazônia afeta a chuva no Brasil?",["Menos floresta = menos umidade no ar","Não afeta","Porque esfria o sol"],0]],
+  cerrado:[["O Cerrado é chamado de:",["Berço das águas do Brasil","Deserto brasileiro","Floresta de neve"],0],["Por que as árvores do Cerrado têm casca grossa?",["Para resistir ao fogo","Para atrair pássaros","Para flutuar"],0],["As raízes das plantas do Cerrado são:",["Muito profundas, buscando água","Muito rasas","Inexistentes"],0],["O lobo-guará se alimenta de:",["Lobeira (fruta-do-lobo) e pequenos animais","Só de capim","Peixes do mar"],0],["As veredas são:",["Áreas úmidas com buritis","Picos rochosos","Praias"],0],["O pequi é usado:",["Na culinária goiana e mineira","Para fazer papel","Como combustível"],0]]};
+const quizPool=()=>QUIZ.concat(QUIZ_B[me.bio]||[]);
+const CAMP={
+  caatinga:[{id:"c1",n:"A nascente voltou!",ico:"💧",t:"Recupere o solo para a nascente do sítio correr com força.",ty:"nasc",v:50,d:10,r:[150,120]},{id:"c2",n:"Sertão coberto",ico:"🍂",t:"Deixe o solo coberto para atravessar a seca.",ty:"cob",v:55,d:8,r:[120,100]},{id:"c3",n:"Lar da asa-branca",ico:"🕊️",t:"Traga 4 animais de volta ao sítio.",ty:"fauna",v:4,d:12,r:[180,150]}],
+  atlantica:[{id:"a1",n:"Corredor do mico-leão",ico:"🐒",t:"Atraia 6 animais, incluindo os maiores, com floresta em vários andares.",ty:"fauna",v:6,d:14,r:[220,180]},{id:"a2",n:"Café sombreado",ico:"☕",t:"Tenha 8 espécies vivas convivendo.",ty:"nsp",v:8,d:10,r:[150,120]},{id:"a3",n:"Água para a cidade",ico:"🚰",t:"Faça a nascente chegar a 60%.",ty:"nasc",v:60,d:12,r:[180,140]}],
+  amazonia:[{id:"z1",n:"Guardiões da castanheira",ico:"🌰",t:"Tenha 3 árvores emergentes adultas.",ty:"emer",v:3,d:18,r:[260,200]},{id:"z2",n:"Floresta que faz chover",ico:"☁️",t:"Guarde 8 toneladas de carbono no sítio.",ty:"carb",v:8,d:14,r:[200,160]},{id:"z3",n:"Açaí sem desmatar",ico:"🫐",t:"Tenha 9 espécies vivas no sítio.",ty:"nsp",v:9,d:10,r:[160,130]}],
+  cerrado:[{id:"r1",n:"Veredas vivas",ico:"🌴",t:"Faça a nascente chegar a 55%.",ty:"nasc",v:55,d:12,r:[180,140]},{id:"r2",n:"Cerrado em pé",ico:"🌳",t:"Chegue a 50% de vida média do solo.",ty:"vida",v:50,d:12,r:[170,140]},{id:"r3",n:"Volta do lobo-guará",ico:"🐺",t:"Atraia 6 animais de volta.",ty:"fauna",v:6,d:14,r:[220,180]}]};
+const GOALS=[{ev:"arvore",t:"Plantar {n} árvores (estrato alto ou emergente)",n:60,ico:"🌳"},{ev:"rocar",t:"Roçar {n} canteiros de capim",n:150,ico:"🌾"},{ev:"colher",t:"Colher {n} produtos",n:250,ico:"🧺"},{ev:"podar",t:"Podar {n} adubadeiras",n:60,ico:"✂️"},{ev:"regar",t:"Regar {n} canteiros",n:200,ico:"💧"}];
+const PANTS=[0x34495e,0x5a4632,0x2c3e50,0x6b6b6b,0x7a5230,0x1e5a3a,0x6a5a48],HATS=["🎩 Palha","🤠 Couro (vaqueiro)","🧢 Boné","🧣 Lenço"],HOUSE_W=[0xf0e6d2,0xf2c94c,0x7fb3d5,0xe59866,0xa9dfbf,0xf5b7b1],ROOF=[0xb03a2e,0x7b5d4a,0x5d6d7e];
+const lookOf=f=>Object.assign({s:f&&f.col||0,p:0,h:0},f&&f.look||{});
+/* ---------- simulação extra (chamada a cada hora) ---------- */
+function extraSim(f,H,W,online,ev){const hr=W.hr;
+  if(W.rain===2){let n=0;for(let i=0;i<100;i++){const c=f.c[i];if(unlocked(f.size,i)&&c.k<15&&!Object.keys(c.p).length){c.v=Math.max(0,c.v-1.2);n++}}if(n)ev.push({t:"erosao",n})}
+  if(W.frost){let hit=0;for(let i=0;i<100;i++){const c=f.c[i];for(const k in c.p){const p=c.p[k],sp=SP[p.s];if((sp.sh>.5||growth(p)<.3)&&shadeFor(c,+k)<.3){p.h-=16;hit++}}}if(hit&&hr===5)ev.push({t:"geada",n:hit})}
+  if(W.flood){for(let i=0;i<100;i++){const c=f.c[i];c.a=100;for(const k in c.p){const p=c.p[k];if(SP[p.s].w<.5)p.h-=2.5}}if(hr===9)ev.push({t:"enchente"})}
+  if(W.gale){let hit=0;for(let i=0;i<100;i++){const c=f.c[i];for(const k in c.p){const p=c.p[k],sp=SP[p.s];if(sp.st>=2&&growth(p)<.6&&hash1(H+i,+k)<.3){p.h-=8;c.k=Math.min(100,c.k+4);hit++}}}if(hit)ev.push({t:"ventania",n:hit})}
+  const cells=[];for(let i=0;i<100;i++)if(unlocked(f.size,i))cells.push(i);
+  if(f.up.galinheiro){for(const i of cells)for(const k in f.c[i].p){const p=f.c[i].p[k];if(p.q&&hash1(H*7+i,k)<.15){p.q=0}}
+    if(hr===7){let q=2;if((f.inv.milho||0)>0){f.inv.milho--;q=4}f.inv.ovos=(f.inv.ovos||0)+q;for(let j=0;j<5;j++){const c=f.c[cells[Math.floor(hash1(H,j)*cells.length)]];c.v=Math.min(100,c.v+2)}ev.push({t:"ovos",q})}}
+  if(f.up.cabras){let fed=0;for(let i=0;i<100&&fed<2;i++){const j=(i*37+H)%100,c=f.c[j];if(c.g>30){c.g-=25;c.k=Math.min(100,c.k+4);c.v=Math.min(100,c.v+.5);fed++}}f.gF=(f.gF||0)+fed;
+    if(hr===8){let q=0;if(f.gF>=10)q=3;else if((f.inv.palma||0)>0){f.inv.palma--;q=2}else{for(const i of cells){let done=false;for(const k in f.c[i].p){const p=f.c[i].p[k];if(growth(p)<.3){p.h-=30;done=true;break}}if(done)break}ev.push({t:"cabraFome"})}
+      if(q){f.inv.leite=(f.inv.leite||0)+q;ev.push({t:"leite",q})}f.gF=0}}
+  if(hr===0||f.nasc==null){const s=farmStats(f),tg=clamp((s.vida-15)*1.1+s.cob*.35+s.alto*2.5+(W.rainy?12:-12),0,100);f.nasc=(f.nasc||0)+(tg-(f.nasc||0))*.25;
+    if(hr===0){f.hist=Array.isArray(f.hist)?f.hist:[];f.hist.push({d:Math.floor(H/24),vida:Math.round(s.vida),cob:Math.round(s.cob),agua:Math.round(s.agua),nsp:s.nsp,carb:+s.carb.toFixed(1),nasc:Math.round(f.nasc),temp:Math.round(s.temp)});if(f.hist.length>40)f.hist.shift()}}
+  if((f.nasc||0)>15){const dry=cells.map(i=>[f.c[i],i]).filter(([c])=>Object.keys(c.p).length).sort((a,b)=>a[0].a-b[0].a).slice(0,2);for(const [c] of dry)c.a=Math.min(100,c.a+f.nasc*.12)}}
+function hourTick2(evs){for(const e of evs){
+    if(e.t==="erosao"){toast("🌧️ A enxurrada levou solo de "+e.n+" canteiro(s) sem cobertura!");lesson("erosao")}else if(e.t==="geada"){toast("❄️ Geada! "+e.n+" planta(s) sensíveis queimaram com o frio.");lesson("geada",true)}
+    else if(e.t==="enchente"){toast("🌊 Enchente! O rio subiu e o solo está encharcado.");lesson("enchente",true)}else if(e.t==="ventania"){toast("🌬️ Ventania quebrou galhos de "+e.n+" árvore(s) jovem(ns). Os galhos viraram palhada.");lesson("ventania")}
+    else if(e.t==="ovos"){toast("🥚 As galinhas botaram "+e.q+" ovos!");lesson("integracao")}else if(e.t==="leite"){toast("🥛 As cabras deram "+e.q+" de leite!")}else if(e.t==="cabraFome"){toast("🐐 As cabras estavam com fome e mordiscaram uma muda! Deixe capim ou palma para elas.");lesson("integracao",true)}}
+  if((F.nasc||0)>30&&!F.enc.co.nascente)lesson("nascente");updateRank();checkCamp();checkGoal();updMis()}
+/* ---------- sementes crioulas ---------- */
+function crioulaSeed(sp){if(Math.random()>.55)return;const n=1+(Math.random()<.3?1:0);F.sem[sp.id]=(F.sem[sp.id]||0)+n;F.cri=F.cri||{};F.cri[sp.id]=(F.cri[sp.id]||0)+1;setTimeout(()=>floatText("+"+n+" semente crioula 🌾 "+sp.ico,null,"#e8d28a"),400);lesson("crioulas")}
+/* ---------- rede extra ---------- */
+let CHAT=[],MKT={},RANK={},GOAL={p:0,def:null},goalRef=null,goalWk=-1;
+const weekId=()=>Math.floor(gameHours()/24/7);
+function goalDef(){return GOAL.def&&GOAL.def.ev?GOAL.def:GOALS[weekId()%GOALS.length]}
+function startNet2(base){$("bProf").style.display=me.prof?"flex":"none";
+  base.child("chat").limitToLast(14).on("child_added",s=>{const v=s.val();if(!v)return;CHAT.push(v);if(CHAT.length>30)CHAT.shift();renderChat();if(Date.now()-(v.ts||0)<30000){bubble(v.uid,v.m);if(v.prof&&v.uid!==me.uid)tip("📢","Professor(a) "+v.n+":",v.m,10000);else if(v.uid!==me.uid&&$("chat").style.display!=="block")$("bChat").classList.add("new")}});
+  base.child("market").on("value",s=>{MKT=s.val()||{};if($("shop").style.display==="flex"&&shopTab==="jogadores")openShop("jogadores")});
+  base.child("rank").on("value",s=>{RANK=s.val()||{};if($("profm").style.display==="flex")openProf()});
+  farmRef.child("gift").on("child_added",s=>{const v=s.val();s.ref.remove();if(!v||!SP[v.s])return;F.sem[v.s]=(F.sem[v.s]||0)+v.q;F.cri=F.cri||{};F.cri[v.s]=Math.max(1,F.cri[v.s]||0);toast("🎁 "+v.n+" te deu "+v.q+" semente(s) crioula(s) de "+SP[v.s].n+"!");snd.card();save()});
+  farmRef.child("pay").on("child_added",s=>{const v=s.val();s.ref.remove();if(!v)return;F.coins+=v.v;F.st.ganho=(F.st.ganho||0)+v.v;toast("💰 "+v.n+" comprou seu anúncio ("+v.q+" "+v.ico+"): +"+v.v+" moedas");snd.coin();updHUD();save()});
+  watchGoal();updateRank()}
+function watchGoal(){const w=weekId();if(w===goalWk||!fbOk())return;if(goalRef)goalRef.off("value");goalWk=w;goalRef=R("rooms/"+room+"/goal/"+w);goalRef.on("value",s=>{const v=s.val()||{};GOAL={p:v.p||0,def:v.def||null};updMis();checkGoal()})}
+function goalEv(id,amt){if(!fbOk())return;const g=goalDef();if(g.ev!==id)return;goalRef&&goalRef.child("p").transaction(v=>(v||0)+(amt||1))}
+function checkGoal(){if(!F)return;watchGoal();const g=goalDef(),w=weekId();F.goals=F.goals||{};if(GOAL.p>=g.n&&!F.goals[w]){F.goals[w]=1;toast("🏘️ A comunidade cumpriu a meta da semana! "+g.ico);rewardFloat(60,80,null,"🏘️");snd.level();save()}}
+function updateRank(){if(!fbOk()||!F)return;const s=farmStats(F);R("rooms/"+room+"/rank/"+me.uid).set({n:me.n,lvl:F.lvl,nsp:s.nsp,carb:+s.carb.toFixed(1),fa:faunaOf(F).length,quiz:F.st.quiz||0,fogo:F.st.fogo||0,vida:Math.round(s.vida),mis:F.st.misDone||0,colh:F.st.colh||0,nasc:Math.round(F.nasc||0),prof:me.prof?1:0,ts:Date.now()})}
+/* ---------- chat ---------- */
+const QUICK=["🆘 Preciso de ajuda!","🔥 Fogo aqui!","🙏 Obrigado!","👋 Oi, vizinho!","🤝 Bora fazer mutirão?","🌱 Troco sementes!","🧺 Vendendo na feira!"];
+function sendChat(m){m=String(m||"").trim().slice(0,120);if(!m)return;if(!fbOk()){toast("Chat precisa de conexão");return}R("rooms/"+room+"/chat").push({n:me.n,uid:me.uid,m,ts:Date.now(),prof:me.prof?1:0});$("chatI").value=""}
+function renderChat(){$("chatL").innerHTML=CHAT.slice(-7).map(c=>`<div><b class="${c.prof?"pf":""}">${c.prof?"📢 ":""}${esc(c.n)}:</b> ${esc(c.m)}</div>`).join("")||"<div style='color:var(--mut)'>Ninguém falou ainda. Diga oi!</div>";$("chatL").scrollTop=1e6}
+const BUB={};function bubble(uid,m){BUB[uid]={m,until:performance.now()+6000}}
+function bubbleTick(){const V=new THREE.Vector3();const show=(uid,x,y,z,el)=>{const b=BUB[uid];if(!b||performance.now()>b.until){el.style.display="none";return}V.set(x,y,z).project(camera);if(V.z>1){el.style.display="none";return}el.style.display="";el.textContent=b.m;el.style.transform=`translate(${((V.x+1)/2*innerWidth)|0}px,${((1-V.y)/2*innerHeight)|0}px) translate(-50%,-100%)`};
+  if(!me.bb){me.bb=document.createElement("div");me.bb.className="bub";$("lbls").appendChild(me.bb)}show(me.uid,P.x,P.y+2.6,P.z,me.bb);
+  for(const id in others){const o=others[id];if(!o.av)continue;if(!o.bb){o.bb=document.createElement("div");o.bb.className="bub";$("lbls").appendChild(o.bb)}show(o.uid,o.rx,3,o.rz,o.bb)}}
+/* ---------- presentes de sementes ---------- */
+function openGift(){openOv("gift");const ppl=Object.values(others).filter(o=>o.fk&&o.n);const seeds=Object.keys(F.sem).filter(k=>F.sem[k]>0&&SP[k]);
+  $("giftB").innerHTML=!fbOk()?"<p>Precisa de conexão.</p>":!ppl.length?"<p>Nenhum vizinho online agora. Chame alguém para a comunidade!</p>":!seeds.length?"<p>Você não tem sementes guardadas. Colha para ganhar sementes crioulas 🌾.</p>":
+    `<label>Para quem</label><select id="gTo">${ppl.map(o=>`<option value="${o.fk}">${esc(o.n)}</option>`).join("")}</select><label>Semente</label><select id="gSp">${seeds.map(k=>`<option value="${k}">${SP[k].ico} ${SP[k].n} (tem ${F.sem[k]})</option>`).join("")}</select>
+    <label>Quantidade</label><input type="range" id="gQ" min="1" max="5" value="1" style="width:100%"><div class="row"><button class="mb pri" id="gGo">🎁 Dar sementes</button></div><p style="font-size:12px;color:var(--mut)">💡 Trocar sementes crioulas espalha variedades adaptadas e fortalece a comunidade. +10 ⭐ por semente doada.</p>`;
+  const go=$("gGo");if(go)go.onclick=()=>{const fk=$("gTo").value,s=$("gSp").value,q=Math.min(+$("gQ").value,F.sem[s]||0);if(!q)return;F.sem[s]-=q;R("farms/"+fk+"/gift").push({n:me.n,s,q,ts:Date.now()});rewardFloat(10*q,0,null,"🎁");lesson("crioulas");lesson("mutirao");toast("🎁 Sementes enviadas!");closeOv();save()}}
+/* ---------- feira entre jogadores ---------- */
+function marketHTML(){if(!fbOk())return "<p>A feira entre jogadores precisa de conexão com a internet.</p>";const L=Object.entries(MKT).filter(([k,v])=>v&&v.item);
+  const nm=it=>it.startsWith("sem:")?(SP[it.slice(4)]?SP[it.slice(4)].ico+" Sementes de "+SP[it.slice(4)].n:it):(PROD[it]?PROD[it].ico+" "+PROD[it].n:it);
+  let h=`<div style="font-size:12px;color:var(--mut);margin-bottom:8px">🤝 Venda e compre direto dos vizinhos. O dinheiro vai para quem anunciou.</div><label>Ofertas da comunidade</label>`;
+  h+=L.length?'<div class="grid">'+L.map(([k,v])=>{const mine=v.uid===me.uid;return `<div class="card"><div class="h"><i>${nm(v.item).split(" ")[0]}</i><div><b>${v.q}× ${nm(v.item).split(" ").slice(1).join(" ")}</b><div class="tag">de ${esc(v.n)}</div></div></div><div>Preço: <b>${v.price} 💰</b></div>${mine?`<button data-mc="${k}">Cancelar anúncio</button>`:`<button data-mb="${k}" ${F.coins<v.price?"disabled":""}>Comprar · ${v.price} 💰</button>`}</div>`}).join("")+"</div>":"<p style='color:var(--mut)'>Nenhuma oferta no momento.</p>";
+  const its=Object.keys(F.inv).filter(k=>F.inv[k]>0&&PROD[k]).map(k=>[k,PROD[k].ico+" "+PROD[k].n+" ("+F.inv[k]+")"]).concat(Object.keys(F.sem).filter(k=>F.sem[k]>0&&SP[k]).map(k=>["sem:"+k,"🌾 Sementes de "+SP[k].n+" ("+F.sem[k]+")"]));
+  h+=`<label>Anunciar para os vizinhos</label>`+(its.length?`<div class="row" style="margin:0;align-items:center"><select id="mI" style="flex:2">${its.map(([k,n])=>`<option value="${k}">${n}</option>`).join("")}</select><input id="mQ" type="number" min="1" value="1" style="width:70px"> <input id="mP" type="number" min="1" value="10" style="width:80px"> 💰<button class="mb pri" id="mGo" style="flex:1">Anunciar</button></div><div style="font-size:11px;color:var(--mut)">quantidade · preço total</div>`:"<p style='color:var(--mut)'>Nada para anunciar.</p>");return h}
+function marketBind(B){const take=(it,q)=>{if(it.startsWith("sem:")){const s=it.slice(4);if((F.sem[s]||0)<q)return false;F.sem[s]-=q}else{if((F.inv[it]||0)<q)return false;F.inv[it]-=q}return true};
+  const give=(it,q)=>{if(it.startsWith("sem:")){const s=it.slice(4);F.sem[s]=(F.sem[s]||0)+q;F.cri=F.cri||{};F.cri[s]=Math.max(1,F.cri[s]||0)}else F.inv[it]=(F.inv[it]||0)+q};
+  const go=$("mGo");if(go)go.onclick=()=>{const it=$("mI").value,q=Math.max(1,+$("mQ").value|0),pr=Math.max(1,+$("mP").value|0);if(!take(it,q)){toast("Quantidade maior do que você tem");return}
+    R("rooms/"+room+"/market").push({uid:me.uid,fk:FK,n:me.n,item:it,q,price:pr,ts:Date.now()});toast("📣 Anúncio publicado!");save()};
+  B.querySelectorAll("[data-mc]").forEach(b=>b.onclick=()=>{const k=b.dataset.mc,v=MKT[k];if(!v)return;R("rooms/"+room+"/market/"+k).transaction(c=>c?null:c,(e,ok)=>{if(ok){give(v.item,v.q);toast("Anúncio cancelado: itens de volta");save()}})});
+  B.querySelectorAll("[data-mb]").forEach(b=>b.onclick=()=>{const k=b.dataset.mb,v=MKT[k];if(!v||F.coins<v.price)return;F.coins-=v.price;updHUD();
+    R("rooms/"+room+"/market/"+k).transaction(c=>c?null:undefined,(e,ok)=>{if(!ok){F.coins+=v.price;updHUD();toast("Alguém comprou antes de você!");return}give(v.item,v.q);const ico=v.item.startsWith("sem:")?"🌾":(PROD[v.item]||{}).ico||"";
+      R("farms/"+v.fk+"/pay").push({v:v.price,n:me.n,q:v.q,ico,ts:Date.now()});toast("✅ Comprou "+v.q+" "+ico+" de "+v.n);snd.coin();rewardFloat(5,0,null,"🤝");save()})})}
+/* ---------- campanhas ---------- */
+function campVal(ty){const s=farmStats(F);return ty==="nasc"?Math.round(F.nasc||0):ty==="fauna"?faunaOf(F).length:ty==="carb"?+s.carb.toFixed(1):ty==="vida"?Math.round(s.vida):ty==="cob"?Math.round(s.cob):s[ty]||0}
+function checkCamp(){if(!F||!F.camp)return;const C=(CAMP[me.bio]||[]).find(c=>c.id===F.camp.id);if(!C){F.camp=null;return}const day=Math.floor(gameHours()/24),v=campVal(C.ty);
+  if(v>=C.v){F.campDone=F.campDone||{};F.campDone[C.id]=1;F.camp=null;tip(C.ico,"Campanha cumprida: "+C.n+"!","Parabéns! Você mostrou na prática como a agrofloresta recupera a terra.",9000);rewardFloat(C.r[1],C.r[0],null,"🎖️");snd.level();feed(me.n+" cumpriu a campanha \""+C.n+"\" "+C.ico);save()}
+  else if(day-F.camp.start>C.d){toast("⌛ O prazo da campanha \""+C.n+"\" acabou. Tente de novo pelo painel 📊!");F.camp=null;save()}}
+function startCamp(id){F.camp={id,start:Math.floor(gameHours()/24)};toast("🎯 Campanha iniciada!");save();updMis();openPan("camp")}
+function misExtra(){let h="";const g=goalDef();if(fbOk())h+=`<div class="m"><span>🏘️ Meta da comunidade: ${g.t.replace("{n}",g.n)} (${Math.min(GOAL.p,g.n)}/${g.n})</span><b>${F.goals&&F.goals[weekId()]?"✅":"+80💰"}</b></div>`;
+  if(F.camp){const C=(CAMP[me.bio]||[]).find(c=>c.id===F.camp.id);if(C){const left=C.d-(Math.floor(gameHours()/24)-F.camp.start);h+=`<div class="m"><span>${C.ico} Campanha: ${C.n} (${campVal(C.ty)}/${C.v}) · ${left}d</span><b>+${C.r[0]}💰</b></div>`}}else if(F.tut>=TUT.length)h+=`<div class="m" style="color:var(--mut)"><span>🎯 Comece uma campanha no painel 📊</span></div>`;return h}
+/* ---------- painel com abas ---------- */
+let panTab="sitio";
+function openPan(tab){panTab=tab||panTab;openOv("pan");const tabs=[["sitio","📊 Sítio"],["tempo","📈 Linha do tempo"],["camp","🎯 Campanhas"],["rank","🏆 Ranking"]];
+  $("panT").innerHTML=tabs.map(([k,n])=>`<button data-t="${k}" aria-pressed="${k===panTab}">${n}</button>`).join("");$("panT").querySelectorAll("button").forEach(b=>b.onclick=()=>openPan(b.dataset.t));
+  if(panTab==="sitio")return panMain();
+  if(panTab==="tempo"){const H=Array.isArray(F.hist)?F.hist.slice():[];const ini=F.st.ini;const pts=(ini?[{d:"início",vida:ini.vida,cob:ini.cob,agua:ini.agua,nsp:0,nasc:0}]:[]).concat(H);
+    const W=640,Hh=200,ser=[["vida","🪱 Vida do solo","#c8873a",1],["cob","🍂 Cobertura","#e2c26a",1],["agua","💧 Umidade","#5bb6f0",1],["nsp","🌈 Espécies ×5","#9bd85a",5],["nasc","💧 Nascente","#4ad8d0",1]];
+    let svg=`<svg viewBox="0 0 ${W} ${Hh+20}" style="width:100%;background:rgba(0,0,0,.25);border-radius:10px">`;for(let y=0;y<=100;y+=25){const Y=Hh-y/100*Hh+5;svg+=`<line x1="30" x2="${W-5}" y1="${Y}" y2="${Y}" stroke="rgba(255,255,255,.1)"/><text x="4" y="${Y+4}" fill="#b9b597" font-size="10">${y}</text>`}
+    if(pts.length>1)for(const [k,,c,m] of ser){svg+=`<polyline fill="none" stroke="${c}" stroke-width="2.5" points="${pts.map((p,i)=>(30+i*(W-40)/(pts.length-1)).toFixed(1)+","+(Hh-clamp((p[k]||0)*m,0,100)/100*Hh+5).toFixed(1)).join(" ")}"/>`}
+    svg+="</svg>";
+    $("panB").innerHTML=(pts.length>1?svg:"<p>A linha do tempo ganha um ponto a cada dia de jogo (à meia-noite). Volte amanhã para ver a evolução!</p>")+`<div class="row" style="font-size:12px">${ser.map(([,n,c])=>`<span style="color:${c}">● ${n}</span>`).join(" ")}</div>
+      <div class="row"><button class="mb pri" id="bFoto">📸 Tirar foto do sítio</button></div><div id="fotoP"></div><p style="font-size:12px;color:var(--mut)">💡 Compare o "antes e depois": é assim que agricultores de verdade mostram a recuperação da terra.</p>`;
+    $("bFoto").onclick=takePhoto;return}
+  if(panTab==="camp"){const L=CAMP[me.bio]||[],day=Math.floor(gameHours()/24);$("panB").innerHTML=`<p style="font-size:13px;margin-top:0">Desafios reais de recuperação do bioma ${BIO[me.bio].ico} ${BIO[me.bio].n}. Uma campanha por vez, com prazo em dias de jogo.</p><div class="grid">`+L.map(C=>{const done=F.campDone&&F.campDone[C.id],act=F.camp&&F.camp.id===C.id,v=campVal(C.ty);
+      return `<div class="card ${done?"sel":""}"><div class="h"><i>${C.ico}</i><div><b>${C.n}</b><div class="tag">${C.d} dias · +${C.r[0]}💰 +${C.r[1]}⭐</div></div></div><div>${C.t}</div><div class="bar"><i style="width:${clamp(v/C.v*100,0,100)}%;background:var(--ac)"></i></div><div style="font-size:11px">Agora: ${v}/${C.v}${act?" · faltam "+(C.d-(day-F.camp.start))+" dias":""}</div>
+      <button data-c="${C.id}" ${done||act||F.camp?"disabled":""}>${done?"✅ Cumprida":act?"Em andamento…":F.camp?"Termine a atual":"Começar"}</button></div>`}).join("")+"</div>";
+    $("panB").querySelectorAll("[data-c]").forEach(b=>b.onclick=()=>startCamp(b.dataset.c));return}
+  if(panTab==="rank"){if(!fbOk()){$("panB").innerHTML="<p>O ranking precisa de conexão.</p>";return}const L=Object.values(RANK).filter(r=>r&&!r.prof);
+    const top=(k,n,ico,suf)=>`<div class="card"><b>${ico} ${n}</b>${L.slice().sort((a,b)=>(b[k]||0)-(a[k]||0)).slice(0,5).map((r,i)=>`<div style="display:flex;justify-content:space-between${r.n===me.n?";color:var(--gold)":""}"><span>${["🥇","🥈","🥉","4.","5."][i]} ${esc(r.n)}</span><b>${r[k]||0}${suf||""}</b></div>`).join("")}</div>`;
+    $("panB").innerHTML=`<p style="font-size:13px;margin-top:0">Ranking da comunidade (inclui quem está offline).</p><div class="grid">${top("nsp","Sítio mais diverso","🌈"," esp.")}${top("carb","Mais carbono guardado","🌍"," t")}${top("fa","Mais animais de volta","🦜")}${top("fogo","Melhor bombeiro","🚒")}${top("lvl","Maior nível","⭐")}${top("quiz","Quiz","🎓")}</div>`}}
+/* ---------- foto ---------- */
+function takePhoto(){closeOv();setTimeout(()=>{try{if(composer)composer.render(0);else{renderer.setRenderTarget(null);renderer.clear();renderer.render(scene,camera)}const src=renderer.domElement.toDataURL("image/jpeg",.9);
+  const img=new Image();img.onload=()=>{const c=document.createElement("canvas");c.width=img.width;c.height=img.height;const g=c.getContext("2d");g.drawImage(img,0,0);const s=farmStats(F),sc=c.width/1280;
+    g.fillStyle="rgba(15,22,10,.75)";g.fillRect(0,c.height-110*sc,c.width,110*sc);g.fillStyle="#fff";g.font=`bold ${30*sc}px Trebuchet MS`;g.fillText("🌳 Sítio de "+me.n+" · "+BIO[me.bio].n+" · Dia "+(Math.floor(gameHours()/24)%1000+1),24*sc,c.height-66*sc);
+    g.font=`${20*sc}px Trebuchet MS`;g.fillText(`Vida do solo ${Math.round(s.vida)}% · ${s.nsp} espécies · ${s.carb.toFixed(1)} t de carbono · ${faunaOf(F).length} animais · Nível ${F.lvl}`,24*sc,c.height-30*sc);
+    const url=c.toDataURL("image/jpeg",.9),a=document.createElement("a");a.href=url;a.download="sitio-agrofloresta-dia-"+(Math.floor(gameHours()/24)%1000+1)+".jpg";document.body.appendChild(a);a.click();a.remove();
+    openPan("tempo");$("fotoP").innerHTML=`<img src="${url}" style="width:100%;border-radius:10px;margin-top:8px">`;snd.card()};img.src=src}catch(e){toast("Não foi possível tirar a foto neste aparelho")}},120)}
+/* ---------- personalização ---------- */
+function openLook(){openOv("custom");const L=lookOf(F),hs=F.house||{w:0,r:0},sw=(arr,k,cur,cls)=>arr.map((c,i)=>`<button class="sw ${cls||""}" data-${k}="${i}" aria-pressed="${i===cur}" style="background:#${c.toString(16).padStart(6,"0")}"></button>`).join("");
+  $("customB").innerHTML=`<label>Camisa</label><div class="row" style="margin:0">${sw(SHIRTS,"s",L.s)}</div><label>Calça</label><div class="row" style="margin:0">${sw(PANTS,"p",L.p)}</div>
+    <label>Chapéu</label><div class="row" style="margin:0">${HATS.map((n,i)=>`<button class="qb" data-h="${i}" aria-pressed="${i===L.h}">${n}</button>`).join("")}</div>
+    <label>Cor da casa do sítio</label><div class="row" style="margin:0">${sw(HOUSE_W,"w",hs.w)}</div><label>Telhado</label><div class="row" style="margin:0">${sw(ROOF,"r",hs.r)}</div>`;
+  const B=$("customB");const set=(k,v)=>{if(k==="w"||k==="r"){F.house=Object.assign({w:0,r:0},F.house||{},{[k]:v});if(views[mySlot]){views[mySlot].x2Key=null;structsExtra(views[mySlot])}}else{F.look=Object.assign(lookOf(F),{[k]:v});F.col=F.look.s;
+      const pos=me.av.position.clone(),ry=me.av.rotation.y;scene.remove(me.av);me.av=farmer(F.look);me.av.position.copy(pos);me.av.rotation.y=ry;scene.add(me.av);setTool(me.av,P.tool);if(myRef)myRef.update({lk:lkStr(F.look),col:F.col})}save();openLook()};
+  B.querySelectorAll("[data-s],[data-p],[data-h],[data-w],[data-r]").forEach(b=>b.onclick=()=>{for(const k of ["s","p","h","w","r"])if(b.dataset[k]!=null)set(k,+b.dataset[k])})}
+const lkStr=L=>[L.s,L.p,L.h].join(",");const lkParse=s=>{const a=String(s||"0,0,0").split(",").map(Number);return {s:a[0]||0,p:a[1]||0,h:a[2]||0}};
+/* ---------- estruturas extras: casa, nascente, galinheiro, curral ---------- */
+function structsExtra(v){if(!v.farm)return;const f=v.farm,key=JSON.stringify([f.up.galinheiro,f.up.cabras,f.house||{}]);if(v.x2Key===key)return;v.x2Key=key;if(v.st2)scene.remove(v.st2);const g=new THREE.Group();v.st2=g;scene.add(g);
+  const p=slotPos(v.slot),gd=gateDir(v.slot),bx=-gd.x,bz=-gd.z,px=-bz,pz=bx,M=(c,r)=>mat("st"+c,null,{color:c,r:r||.7}),wood=mat("v_wood");
+  const mesh=(geo,m,x,y,z,ry)=>{const o=new THREE.Mesh(geo,m);o.position.set(x,y,z);if(ry)o.rotation.y=ry;o.castShadow=Q>0;o.receiveShadow=Q>0;return o};
+  const place=(o,along,side)=>{o.position.set(p.x+bx*along+px*side,0,p.z+bz*along+pz*side);o.rotation.y=Math.atan2(-bx,-bz);g.add(o);return o};
+  // nascente
+  {const o=new THREE.Group();for(let i=0;i<10;i++){const a=i/10*6.28;o.add(mesh(new THREE.DodecahedronGeometry(.35+hash1(i,v.slot)*.2,0),mat("v_stone"),Math.cos(a)*1.5,.15,Math.sin(a)*1.5))}
+    const w=mesh(new THREE.CircleGeometry(1.35,24).rotateX(-Math.PI/2),mat("water",null,{color:0x3a7a90,r:.08,m:.2,env:1.5,tr:true,op:.85,std:true}),0,.06,0);w.receiveShadow=false;o.add(w);v.water=w;
+    const dirt=mesh(new THREE.CircleGeometry(1.4,24).rotateX(-Math.PI/2),M(0x7a6248,1),0,.04,0);o.add(dirt);place(o,HALF+3.2,-14);v.springPos=o.position.clone()}
+  // casa
+  {const h=f.house||{w:0,r:0},o=new THREE.Group();o.add(mesh(new THREE.BoxGeometry(4,2.6,3.2),M(HOUSE_W[h.w%HOUSE_W.length],.9),0,1.3,0));const r1=mesh(new THREE.BoxGeometry(4.6,.14,2.1),M(ROOF[h.r%ROOF.length],.7),0,3.05,.8);r1.rotation.x=.5;o.add(r1);const r2=mesh(new THREE.BoxGeometry(4.6,.14,2.1),M(ROOF[h.r%ROOF.length],.7),0,3.05,-.8);r2.rotation.x=-.5;o.add(r2);
+    o.add(mesh(new THREE.BoxGeometry(.9,1.8,.08),M(0x6a4a2a),0,.9,1.62));o.add(mesh(new THREE.BoxGeometry(.7,.6,.06),M(0x3a5a6a,.3),1.3,1.5,1.62));const hp=gd;const og=new THREE.Group();og.add(o);og.position.set(p.x+hp.x*(HALF+4)+(-hp.z)*11,0,p.z+hp.z*(HALF+4)+hp.x*11);og.rotation.y=Math.atan2(hp.x,hp.z);g.add(og)}
+  if(f.up.galinheiro){const o=new THREE.Group();o.add(mesh(new THREE.BoxGeometry(1.8,1.1,1.3),wood,0,.75,0));o.add(mesh(new THREE.BoxGeometry(2.1,.1,1.6),M(0x8a5a3a),0,1.35,0));for(const [x,z] of [[-.8,-.55],[.8,-.55],[-.8,.55],[.8,.55]])o.add(mesh(new THREE.BoxGeometry(.08,.3,.08),wood,x,.15,z));place(o,8,HALF+3.4)}
+  if(f.up.cabras){const o=new THREE.Group();for(let i=0;i<8;i++){const a=i/8*6.28;o.add(mesh(new THREE.BoxGeometry(.1,.9,.1),wood,Math.cos(a)*1.8,.45,Math.sin(a)*1.8))}o.add(mesh(new THREE.BoxGeometry(1.2,.4,.6),M(0x8a6a48),0,.2,0));place(o,-6,HALF+3.6)}
+  // animais
+  (v.farmAn||[]).forEach(a=>scene.remove(a.m));v.farmAn=[];
+  if(f.up.galinheiro)for(let i=0;i<5;i++){const m=new THREE.Group(),c=i%2?0xf2efe6:0x9a5a2a;const b=new THREE.Mesh(new THREE.SphereGeometry(.16,8,6),M(c,.9));b.scale.set(1,.9,1.3);b.position.y=.25;m.add(b);const h=new THREE.Mesh(new THREE.SphereGeometry(.08,8,6),M(c,.9));h.position.set(0,.42,-.15);m.add(h);
+    const cm=new THREE.Mesh(new THREE.BoxGeometry(.03,.07,.08),M(0xd8282a));cm.position.set(0,.5,-.15);m.add(cm);const bk=new THREE.Mesh(new THREE.ConeGeometry(.025,.07,5),M(0xe8b030));bk.rotation.x=-Math.PI/2;bk.position.set(0,.41,-.24);m.add(bk);for(const s of [-1,1]){const l=new THREE.Mesh(new THREE.CylinderGeometry(.01,.01,.14,4),M(0xe8b030));l.position.set(s*.05,.07,0);m.add(l)}
+    scene.add(m);m.position.set(p.x+(Math.random()-.5)*20,0,p.z+(Math.random()-.5)*20);v.farmAn.push({m,tx:m.position.x,tz:m.position.z,sp:.9,peck:0})}
+  if(f.up.cabras)for(let i=0;i<2;i++){const m=mamMesh(i?0xd8d0c0:0x6a4a32,true);m.scale.setScalar(.75);for(const s of [-1,1]){const hn=new THREE.Mesh(new THREE.ConeGeometry(.03,.22,5),M(0x3a3028));hn.position.set(s*.07,1.07,-.42);hn.rotation.x=.5;m.add(hn)}scene.add(m);m.position.set(p.x+(Math.random()-.5)*20,0,p.z+(Math.random()-.5)*20);v.farmAn.push({m,tx:m.position.x,tz:m.position.z,sp:.7,goat:1})}}
+function tick2(dt,t){for(const s in views){const v=views[s];if(!v.farm)continue;structsExtra(v);const p=slotPos(v.slot);
+    if(v.water){const fl=clamp((v.farm.nasc||0)/100,0,1);v.water.scale.setScalar(.15+fl*.85);v.water.visible=fl>.05;if(v.springPos&&fl>.2&&Math.random()<dt*2*fl)burst(new THREE.Vector3(v.springPos.x,.2,v.springPos.z),0x9ad8f0,2,{up:1,v:.6,sp:.6,life:.5})}
+    for(const a of v.farmAn||[]){const m=a.m;if(Math.hypot(a.tx-m.position.x,a.tz-m.position.z)<.4){a.tx=p.x+(Math.random()-.5)*(v.farm.size*CS+2);a.tz=p.z+(Math.random()-.5)*(v.farm.size*CS+2);a.wait=Math.random()*3}
+      if(a.wait>0){a.wait-=dt;if(!a.goat)m.children[1].position.y=.42-Math.max(0,Math.sin(t/120))*.12;continue}const dx=a.tx-m.position.x,dz=a.tz-m.position.z,d=Math.hypot(dx,dz)||1;m.position.x+=dx/d*dt*a.sp;m.position.z+=dz/d*dt*a.sp;m.rotation.y=Math.atan2(-dx,-dz)}}
+  bubbleTick()}
+/* ---------- professor ---------- */
+function openProf(){openOv("profm");const L=Object.values(RANK).filter(r=>r&&!r.prof).sort((a,b)=>(b.lvl||0)-(a.lvl||0));const g=goalDef();
+  $("profB").innerHTML=`<p style="margin-top:0;font-size:13px">Turma da comunidade <b>${esc(room)}</b> · ${L.length} aluno(s)</p>
+  <div style="overflow:auto"><table class="tbl"><tr><th>Aluno</th><th>Nível</th><th>Espécies</th><th>Carbono</th><th>Vida solo</th><th>Animais</th><th>Quiz</th><th>Missões</th><th>Visto</th></tr>${L.map(r=>`<tr><td>${esc(r.n)}</td><td>${r.lvl||1}</td><td>${r.nsp||0}</td><td>${r.carb||0} t</td><td>${r.vida||0}%</td><td>${r.fa||0}</td><td>${r.quiz||0}</td><td>${r.mis||0}</td><td>${r.ts?Math.round((Date.now()-r.ts)/60000)+" min":"-"}</td></tr>`).join("")}</table></div>
+  <label>📢 Mensagem para a turma</label><div class="row" style="margin:0"><input type="text" id="pMsg" maxlength="120" placeholder="Ex.: Hoje vamos estudar a cobertura do solo!" style="flex:3"><button class="mb pri" id="pSend" style="flex:1">Enviar</button></div>
+  <label>🎯 Meta da comunidade desta semana (atual: ${g.t.replace("{n}",g.n)})</label><div class="row" style="margin:0"><select id="pGt" style="flex:2">${GOALS.map((G,i)=>`<option value="${i}">${G.ico} ${G.t.replace("{n}","N")}</option>`).join("")}</select><input type="number" id="pGn" value="${g.n}" min="5" style="width:80px"><button class="mb" id="pGo" style="flex:1">Definir meta</button></div>
+  <div class="row"><button class="mb" id="pCsv">⬇️ Baixar relatório (CSV)</button></div>`;
+  $("pSend").onclick=()=>{sendChat($("pMsg").value);toast("📢 Mensagem enviada para a turma")};
+  $("pGo").onclick=()=>{const G=GOALS[+$("pGt").value];goalRef&&goalRef.update({def:{ev:G.ev,t:G.t,n:Math.max(5,+$("pGn").value|0),ico:G.ico},p:0});toast("🎯 Nova meta definida!")};
+  $("pCsv").onclick=()=>{const rows=[["Aluno","Nivel","Especies","Carbono_t","Vida_solo_%","Animais","Quiz_acertos","Missoes","Colheitas","Nascente_%"]].concat(L.map(r=>[r.n,r.lvl,r.nsp,r.carb,r.vida,r.fa,r.quiz,r.mis,r.colh,r.nasc]));
+    const csv=rows.map(r=>r.map(x=>'"'+String(x==null?"":x).replace(/"/g,'""')+'"').join(";")).join("\n"),a=document.createElement("a");a.href=URL.createObjectURL(new Blob(["﻿"+csv],{type:"text/csv"}));a.download="turma-"+room+".csv";a.click()}}
+
+$("chatQ").innerHTML=QUICK.map(q=>`<button>${q}</button>`).join("");$("chatQ").querySelectorAll("button").forEach(b=>b.onclick=()=>sendChat(b.textContent));
 
 </script>
 </body>
